@@ -1,30 +1,28 @@
-import {Text, TextInput, View} from "react-native"
+import {Button, Text, TextInput, View} from "react-native"
 import {Link} from "@react-navigation/native";
-import {useState} from "react";
+import React, {useState} from "react";
 import UIButton from "../../ui/UIButton";
 import UIField from "../../ui/UIField";
 
-const Registration = () => {
-  const regHandler = () => {}
-
+const Registration = ({navigation}) => {
   const [data, setData] = useState({login: '', pass: '', repeatPass: ''})
+  const regHandler = () => {
+    navigation.navigate('Login')
+
+  }
 
   return (
-    <View>
-      <Text className="font-bold text-3xl mb-[54]">Создайте свой аккаунт</Text>
+    <View className={'px-8 my-auto'}>
+      <Text className="font-bold text-4xl mb-[54] text-white text-center">Создайте свой аккаунт</Text>
 
-      <View>
-        <View>
-          <UIField placeholder={'Ваш логин'} value={data.login} onChange={value => setData({...data, login: value})}/>
-          <UIField placeholder={'Ваш пароль'} value={data.pass} onChange={value => setData({...data, pass: value})}/>
-          <UIField placeholder={'Повторите пароль'} value={data.repeatPass} onChange={value => setData({...data, repeatPass: value})}/>
-        </View>
-
-        <View className={'mt-2'}>
-          <UIButton title={'Создать'} onPress={regHandler}/>
-          <Link to={{screen: 'Login'}}>Уже есть аккаунт?</Link>
-        </View>
+      <View className={'mb-4'}>
+        <UIField placeholder={'Ваш логин'} value={data.login} onChange={value => setData({...data, login: value})}/>
+        <UIField isSecure={true} placeholder={'Ваш пароль'} value={data.pass} onChange={value => setData({...data, pass: value})}/>
+        <UIField isSecure={true} placeholder={'Повторите пароль'} value={data.repeatPass} onChange={value => setData({...data, repeatPass: value})}/>
       </View>
+
+      <UIButton title={'Создать'} onPress={regHandler}/>
+      <Text className={'text-primary text-center pt-2'} onPress={() => navigation.navigate('Login')}>Уже есть аккаунт?</Text>
     </View>
   )
 }

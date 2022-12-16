@@ -1,10 +1,11 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
 
-const HomeScreen = props => {
+const HomeScreen = ({navigation}) => {
   return (
     <View>
       <Text>Home Page</Text>
+      <Button title={"Войти"} onPress={() => navigation.navigate('Login')}/>
     </View>
   )
 }

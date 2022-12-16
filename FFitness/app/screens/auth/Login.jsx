@@ -1,31 +1,25 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Button, Text, TextInput, View} from "react-native"
-import { Link } from '@react-navigation/native'
+import UIButton from "../../ui/UIButton";
+import UIField from "../../ui/UIField";
 
-const Login = () => {
+const Login = ({ navigation }) => {
+  const [data, setData] = useState({login: '', pass: ''})
+  const loginHandler = () => {
+    navigation.navigate('Home')
+  }
+
   return (
-    <View>
-      <Text className="font-bold text-3xl mb-[54]">Войдите в свой аккаунт</Text>
+    <View className={'px-8 my-auto'}>
+      <Text className={'font-bold text-4xl mb-[54] text-white text-center'}>Войдите в свой аккаунт</Text>
 
-      <View>
-        <View className="relative mb-2">
-          <Text>Ваш логин</Text>
-          <TextInput type="text" id="floating_outlined"
-                     className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-white bg-gray-900 rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                     placeholder=" "/>
-        </View>
-        <View className="relative mb-2">
-          <Text>Ваш пароль</Text>
-          <TextInput type="text" id="floating_outlined"
-                     className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-white bg-gray-900 rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                     placeholder=" "/>
-        </View>
-
-        <Link to={{screen: 'Registration'}}>У вас нет аккаунта?</Link>
-        <View className="mt-4">
-          <Button title='Войти'/>
-        </View>
+      <View className={'mb-4'}>
+        <UIField placeholder={'Ваш логин'} value={data.login} onChange={value => setData({...data, login: value})}/>
+        <UIField placeholder={'Ваш пароль'} value={data.pass} isSecure={true} onChange={value => setData({...data, pass: value})}/>
       </View>
+
+      <UIButton title={'Войти'} onPress={loginHandler}/>
+      <Text className={'text-primary text-center mt-2'} onPress={() => navigation.navigate('Registration')}>Нет аккаунта?</Text>
     </View>
   )
 }
