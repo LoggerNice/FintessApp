@@ -1,12 +1,12 @@
 import express from 'express'
-import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
+import multer from 'multer'
 import dotenv from 'dotenv'
-import {validationResult} from "express-validator";
-import bcrypt from 'bcrypt'
+import * as fs from 'fs'
 
-import { regValidation } from './validations/auth.js'
-import UserModel from './models/User.js'
+import { UserController, PostController } from './controllers/index.js'
+import { postCreateValidation, regValidation} from "./validation.js"
+import { checkAuth, handleErrors } from "./utils/index.js"
 
 dotenv.config()
 
@@ -16,51 +16,41 @@ mongoose.connect(process.env.MONGODB_LINK)
         .catch((err) => console.log('БД не подключена. ' + err))
 
 const app = express()
-app.use(express.json())
 
-app.post('/Registration', regValidation, async (req, res) => {
-  try {
-    const err = validationResult(req)
-    if (!err.isEmpty()) {
-      return res.status(400).json(err.array())
+const storage = multer.diskStorage({
+  destination: (_, __, cb) => {
+    if (!fs.existsSync('uploads')) {
+      fs.mkdirSync('uploads');
     }
-
-    const password = req.body.password
-    const salt = await bcrypt.genSalt(10)
-    const hash = await bcrypt.hash(password, salt)
-
-    const doc = new UserModel({
-      login: req.body.login,
-      password: hash,
-    })
-
-    const user = await doc.save()
-    const token = jwt.sign(
-    {
-      _id: user._id,
-    },
-    '8eb1b4c47b076bd789291a230ad09d0d',
-    {
-      expiresIn: '30d',
-    })
-
-    const { passwordHash, ...userData } = user._doc
-
-    res.json({
-      ...userData,
-      token,
-    })
-  } catch (e) {
-    console.log(e)
-    res.status(500).json({
-      message: 'Не удалось зарегистрироваться'
-    })
-  }
+    cb(null, 'uploads');
+  },
+  filename: (_, file, cb) => {
+    cb(null, file.originalname);
+  },
 })
 
-app.post('/Login', (req, res) => {
+const upload = multer({ storage })
 
+app.use(express.json())
+app.use('/uploads', express.static('uploads'))
+
+//Получение фото
+app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
+  res.json({
+    url: `/uploads/${req.file.originalname}`,
+  })
 })
+
+//Авторизация
+app.post('/registration', regValidation, handleErrors, UserController.register)
+app.post('/login', handleErrors, UserController.login)
+
+//Посты
+app.post('/posts', checkAuth, postCreateValidation, PostController.create)
+app.get('/posts', checkAuth, PostController.getAll)
+app.get('/posts/:id', checkAuth, PostController.getByID)
+app.patch('/posts/:id', checkAuth, PostController.update)
+app.delete('/posts/:id', checkAuth, PostController.remove)
 
 const port = process.env.PORT || 5000
 app.listen(port, (err) => {
