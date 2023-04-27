@@ -4,8 +4,7 @@ import multer from 'multer'
 import dotenv from 'dotenv'
 import * as fs from 'fs'
 
-import { UserController, PostController } from './controllers/index.js'
-import { postCreateValidation, regValidation} from "./validation.js"
+import {UserController, PostController, MedicalController} from "./controllers/index.js"
 import { checkAuth, handleErrors } from "./utils/index.js"
 
 dotenv.config()
@@ -42,11 +41,20 @@ app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
 })
 
 //Авторизация
-app.post('/registration', regValidation, handleErrors, UserController.register)
+app.post('/registration', handleErrors, UserController.register)
 app.post('/login', handleErrors, UserController.login)
 
+//Личный кабинет
+app.get('/profile', checkAuth, handleErrors, UserController.getInfo)
+app.get('/profile/:id', checkAuth, handleErrors, UserController.getInfoByID)
+app.patch('/profile', checkAuth, handleErrors, UserController.update)
+
+//Мед анкета
+app.get('/medical', checkAuth, handleErrors, MedicalController.get)
+app.patch('/medical', checkAuth, handleErrors, MedicalController.update)
+
 //Посты
-app.post('/posts', checkAuth, postCreateValidation, PostController.create)
+app.post('/posts', checkAuth, PostController.create)
 app.get('/posts', checkAuth, PostController.getAll)
 app.get('/posts/:id', checkAuth, PostController.getByID)
 app.patch('/posts/:id', checkAuth, PostController.update)

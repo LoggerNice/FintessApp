@@ -1,14 +1,77 @@
-import {Button, Text, TextInput, View} from "react-native"
-import {Link} from "@react-navigation/native";
-import React, {useState} from "react";
-import UIButton from "../../ui/UIButton";
-import UIField from "../../ui/UIField";
+import {Alert, Text, View} from "react-native"
+import React, {useState} from "react"
+import UIButton from "../../ui/UIButton"
+import UIField from "../../ui/UIField"
+import axios from "axios"
 
 const Registration = ({navigation}) => {
-  const [data, setData] = useState({login: '', pass: '', repeatPass: ''})
-  const regHandler = () => {
-    navigation.navigate('Login')
+  const [user, setUser] = useState({login: '', name: '', pass: '', repeatPass: ''})
 
+  const { login, name, pass, repeatPass } = user
+  const fields = {
+    login,
+    name,
+    pass,
+    repeatPass
+  }
+
+  const fetchAPI = async () => {
+    try {
+      const res = await axios.post( 'http://192.168.65.98:3000/registration', fields)
+      console.log(res.data)
+    } catch (e) {
+      console.log('Ошибка отправки данных на сервер:', e)
+      Alert.alert('Ошибка регистрации')
+    }
+  }
+
+  const regHandler = async () => {
+    if (validateForm()) {
+      await fetchAPI()
+      navigation.navigate('Login')
+    }
+  }
+
+  const validatePhone = (login) => {
+    const pattern = /^[0-9]{11}$/
+    return pattern.test(login)
+  }
+
+  const validateName = (name) => {
+    const pattern = /^[a-zA-Z]{2,}$/
+    return pattern.test(name)
+  }
+
+  const validatePassword = (password) => {
+    return password.length > 8
+  }
+
+  const validateForm = () => {
+    const isValidPhone = validatePhone(user.login)
+    const isValidPassword = validatePassword(user.pass)
+    const isValidName = validateName(user.name)
+
+    if (!isValidPhone) {
+      Alert.alert('Неверный номер телефона')
+      return false
+    }
+
+    if (!isValidName) {
+      Alert.alert('Неправильно указано имя')
+      return false
+    }
+
+    if (!isValidPassword) {
+      Alert.alert('Пароль должен быть больше 8 символов')
+      return false
+    }
+
+    if (user.pass !== user.repeatPass) {
+      Alert.alert('Пароли не совпадают')
+      return false
+    }
+
+    return true
   }
 
   return (
@@ -16,9 +79,10 @@ const Registration = ({navigation}) => {
       <Text className="font-bold text-4xl mb-[54] text-white text-center">Создайте свой аккаунт</Text>
 
       <View className={'mb-4'}>
-        <UIField placeholder={'Ваш логин'} value={data.login} onChange={value => setData({...data, login: value})}/>
-        <UIField isSecure={true} placeholder={'Ваш пароль'} value={data.pass} onChange={value => setData({...data, pass: value})}/>
-        <UIField isSecure={true} placeholder={'Повторите пароль'} value={data.repeatPass} onChange={value => setData({...data, repeatPass: value})}/>
+        <UIField placeholder={'Ваш номер телефона'} value={user.login} onChange={value => setUser({...user, login: value})}/>
+        <UIField placeholder={'Ваше имя'} value={user.name} onChange={value => setUser({...user, name: value})}/>
+        <UIField isSecure={true} placeholder={'Ваш пароль'} value={user.pass} onChange={value => setUser({...user, pass: value})}/>
+        <UIField isSecure={true} placeholder={'Повторите пароль'} value={user.repeatPass} onChange={value => setUser({...user, repeatPass: value})}/>
       </View>
 
       <UIButton title={'Создать'} onPress={regHandler}/>
