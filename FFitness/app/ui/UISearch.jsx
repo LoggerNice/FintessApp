@@ -1,11 +1,14 @@
-import {View} from "react-native"
+import {TouchableOpacity, View} from "react-native"
+import {Ionicons} from '@expo/vector-icons'
 
-const UiSearch = () => {
+const UISearch = () => {
+  const search = () => {}
+
   return (
-    <View>
-
-    </View>
+    <TouchableOpacity onPress={search}>
+      <Ionicons name="search" size={30} color="white" backgroundColor='null'/>
+    </TouchableOpacity>
   )
 }
 
-export default UiSearch
+export default UISearch

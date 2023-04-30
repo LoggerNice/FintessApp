@@ -1,11 +1,14 @@
-import {Image, Text, View} from "react-native"
+import {Image, ScrollView, Text, View} from "react-native"
 import {useState} from "react";
+import {useNavigation} from "@react-navigation/native";
 
 const ProgramList = () => {
+    const navigation = useNavigation()
     const image = { uri: "https://recordregion.ru/wp-content/uploads/2/8/a/28a632680cffcb6eb240cfc4a07d0225.jpeg" }
     const [training, setTraining] = useState({type: 'Кардио', count: 5})
 
     return (
+      <ScrollView horizontal={true}>
         <View className={'flex-row space-x-6'}>
             <View className={'relative w-[300px] h-[300px]'}>
                 <Image source={image} resizeMode="cover" className={'flex-1 opacity-50 rounded-2xl'}/>
@@ -31,6 +34,7 @@ const ProgramList = () => {
                 </View>
             </View>
         </View>
+      </ScrollView>
     )
 }
 

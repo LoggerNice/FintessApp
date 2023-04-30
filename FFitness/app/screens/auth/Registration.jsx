@@ -1,8 +1,10 @@
 import {Alert, Text, View} from "react-native"
 import React, {useState} from "react"
+import axios from "axios"
+
 import UIButton from "../../ui/UIButton"
 import UIField from "../../ui/UIField"
-import axios from "axios"
+import {URL} from "../../../axios"
 
 const Registration = ({navigation}) => {
   const [user, setUser] = useState({login: '', name: '', pass: '', repeatPass: ''})
@@ -17,7 +19,7 @@ const Registration = ({navigation}) => {
 
   const fetchAPI = async () => {
     try {
-      const res = await axios.post( 'http://192.168.65.98:3000/registration', fields)
+      const res = await axios.post( `${URL}/registration`, fields)
       console.log(res.data)
     } catch (e) {
       console.log('Ошибка отправки данных на сервер:', e)

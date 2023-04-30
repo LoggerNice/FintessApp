@@ -2,8 +2,8 @@ import {Text, TouchableHighlight} from "react-native";
 
 const UIButton = ({title, onPress}) => {
   return (
-    <TouchableHighlight onPress={onPress} className="bg-primary rounded-full py-4 my-2">
-      <Text className="text-white text-center">{title}</Text>
+    <TouchableHighlight onPress={onPress} className="bg-primary rounded-full py-4 px-4">
+      <Text className="text-white text-center font-bold">{title}</Text>
     </TouchableHighlight>
   )
 }

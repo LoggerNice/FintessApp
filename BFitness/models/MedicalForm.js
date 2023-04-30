@@ -4,6 +4,7 @@ const MedicalFormSchema = new mongoose.Schema({
   userID: {
     type: Number,
     require: true,
+    unique: true,
   },
   weight: {
     type: Number,
@@ -18,7 +19,7 @@ const MedicalFormSchema = new mongoose.Schema({
     require: true,
   },
   desease: {
-    type: Object,
+    type: Array,
   },
   sertificate: {
     type: String,
@@ -29,6 +30,10 @@ const MedicalFormSchema = new mongoose.Schema({
   },
   levelTrening: {
     type: String,
+  },
+  access: {
+    type: Boolean,
+    require: true
   },
 }, {
   timestamps: true,

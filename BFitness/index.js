@@ -45,7 +45,6 @@ app.post('/registration', handleErrors, UserController.register)
 app.post('/login', handleErrors, UserController.login)
 
 //Личный кабинет
-app.get('/profile', checkAuth, handleErrors, UserController.getInfo)
 app.get('/profile/:id', checkAuth, handleErrors, UserController.getInfoByID)
 app.patch('/profile', checkAuth, handleErrors, UserController.update)
 

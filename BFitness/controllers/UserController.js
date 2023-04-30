@@ -14,6 +14,7 @@ export const register = async (req, res) => {
       name: req.body.name,
       avatarURL: req.body.avatarURL || 'https://www.pinclipart.com/picdir/big/165-1653686_female-user-icon-png-download-user-colorful-icon.png',
       role: 'user',
+      experience: 0,
     })
     const user = await doc.save()
 
