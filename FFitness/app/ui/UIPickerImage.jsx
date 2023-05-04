@@ -7,21 +7,16 @@ const UIPickerImage = ({onChange}) => {
   const [imageUri, setImageUri] = useState(null)
 
   const handleChoosePhoto = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      alert('Permission to access camera roll is required!')
-      return
-    }
-
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 0.8,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     })
 
-    if (!result.cancelled) {
-      setImageUri(result.uri)
-      onChange(imageUri)
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri)
+      onChange(result.assets[0].uri)
     }
   }
 

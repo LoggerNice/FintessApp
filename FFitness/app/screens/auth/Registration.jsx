@@ -4,7 +4,7 @@ import axios from "axios"
 
 import UIButton from "../../ui/UIButton"
 import UIField from "../../ui/UIField"
-import {URL} from "../../../axios"
+import {URLA} from "../../../axios";
 
 const Registration = ({navigation}) => {
   const [user, setUser] = useState({login: '', name: '', pass: '', repeatPass: ''})
@@ -19,7 +19,7 @@ const Registration = ({navigation}) => {
 
   const fetchAPI = async () => {
     try {
-      const res = await axios.post( `${URL}/registration`, fields)
+      const res = await axios.post( `${URLA}/registration`, fields)
       console.log(res.data)
     } catch (e) {
       console.log('Ошибка отправки данных на сервер:', e)

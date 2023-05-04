@@ -1,4 +1,4 @@
-import express from 'express'
+import express, {request, response} from 'express'
 import mongoose from 'mongoose'
 import multer from 'multer'
 import dotenv from 'dotenv'
@@ -49,7 +49,8 @@ app.get('/profile/:id', checkAuth, handleErrors, UserController.getInfoByID)
 app.patch('/profile', checkAuth, handleErrors, UserController.update)
 
 //Мед анкета
-app.get('/medical', checkAuth, handleErrors, MedicalController.get)
+app.get('/medical/:id', MedicalController.okeey)
+app.post('/medical', checkAuth, handleErrors, MedicalController.create)
 app.patch('/medical', checkAuth, handleErrors, MedicalController.update)
 
 //Посты

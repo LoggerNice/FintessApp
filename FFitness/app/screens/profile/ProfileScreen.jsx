@@ -1,57 +1,20 @@
 import {Image, ScrollView, Text, TouchableOpacity, View} from "react-native"
 import React, {useEffect, useState} from "react"
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons'
 
 import ProgramList from "./ProgramList"
-import MedForm from "./MedForm";
+import MedForm from "../form/MedForm"
+import {clearStorage} from "../../model/Storage"
+import useUser from "../../model/User"
 
 const ProfileScreen = ({navigation}) => {
-  const [user, setUser] = useState({role: '', token: '', name: 'Вадим', exp: 352, photo: "https://i.yapx.cc/PdTRU.jpg" })
+  const {user} = useUser()
   const level = Math.floor(user.exp / 100)
-
-  const getStorage = async () => {
-    const token = await AsyncStorage.getItem('token')
-    const name = await AsyncStorage.getItem('name')
-    const exp = await AsyncStorage.getItem('exp')
-    const role = await AsyncStorage.getItem('role')
-    const photo = await AsyncStorage.getItem('photo')
-
-    setUser({role: role, token: token, name: name, exp: exp, photo: photo})
-  }
-
-  const clearStorage = async () => {
-    await AsyncStorage.removeItem('token')
-    await AsyncStorage.removeItem('_id')
-    await AsyncStorage.removeItem('name')
-    await AsyncStorage.removeItem('exp')
-    await AsyncStorage.removeItem('role')
-    await AsyncStorage.removeItem('photo')
-    navigation.navigate('Login')
-  }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await getStorage()
-      } catch (e) {
-        console.log(e)
-      }
-    }
-    fetchData()
-  }, [])
-
-  const edit = () => {
-    navigation.navigate('EditProfile')
-  }
-
-  const trening = () => {
-    navigation.navigate('Program')
-  }
 
   const logout = async () => {
     try {
       await clearStorage()
+      navigation.navigate('Login')
     } catch (e) {
       console.log(e);
     }
@@ -62,7 +25,7 @@ const ProfileScreen = ({navigation}) => {
     <View className={'my-5 mx-4'}>
       <View className={'items-center'}>
         <View className={'flex flex-row justify-between w-screen'}>
-          <MaterialCommunityIcons.Button name="account-edit" size={34} color="white" onPress={edit} backgroundColor='null'/>
+          <MaterialCommunityIcons.Button name="account-edit" size={34} color="white" onPress={() => navigation.navigate('EditProfile')} backgroundColor='null'/>
           <View className={'w-32 h-32 relative'}>
             <Image style={{borderColor: '#6842FF', borderWidth: 2}} source={{uri: user.photo}} resizeMode="cover" className={'flex-1 rounded-full w-full h-full'}/>
           </View>
@@ -87,7 +50,7 @@ const ProfileScreen = ({navigation}) => {
         <MedForm/>
         <View className={'flex-row justify-between mb-5'}>
           <Text className={'text-xl text-white'}>Тренировки</Text>
-          <TouchableOpacity onPress={trening}>
+          <TouchableOpacity onPress={() => navigation.navigate('Program')}>
             <Text className={'my-auto text-primary'}>Перейти -></Text>
           </TouchableOpacity>
         </View>

@@ -1,8 +1,32 @@
 import MedicalForm from "../models/MedicalForm.js";
 
-export const get = async (req, res) => {
+export const create = async (req, res) => {
   try {
-    const form = await MedicalForm.findOne({userID: req.body._id})
+    const doc = new MedicalForm({
+      userID: req.userId,
+      weight: req.body.weight,
+      height: req.body.height,
+      age: req.body.age,
+      desease: req.body.desease,
+      sertificate: "url",
+      goal: req.body.goal,
+      levelTrening: req.body.levelTrening,
+      access: req.body.access,
+    })
+
+    const form = doc.save()
+    res.json(form)
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({
+      message: 'Не удалось создать мед анкету'
+    })
+  }
+}
+
+export const okeey = async (req, res) => {
+  try {
+    const form = await MedicalForm.findOne({userID: req.params.id})
     if(!form) {
       console.log('Анкета не найдена')
       return res.status(404).json({
@@ -11,7 +35,7 @@ export const get = async (req, res) => {
     }
 
     res.json({
-      form,
+      form
     })
   } catch (e) {
     console.log(e)

@@ -2,9 +2,9 @@ import mongoose from 'mongoose'
 
 const MedicalFormSchema = new mongoose.Schema({
   userID: {
-    type: Number,
-    require: true,
-    unique: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    require: true
   },
   weight: {
     type: Number,

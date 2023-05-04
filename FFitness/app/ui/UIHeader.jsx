@@ -19,7 +19,7 @@ const UIHeader = () => {
         </TouchableOpacity>
         <View className={'flex flex-row'}>
           <UISearch />
-          <UILike/>
+          <UILike />
         </View>
       </View>
   )

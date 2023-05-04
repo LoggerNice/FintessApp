@@ -84,11 +84,17 @@ export const login = async (req, res) => {
 
 export const getInfo = async (req, res) => {
   try {
+    const user = await UserModel.findById(req.userId);
 
+    if (!user) {
+      return res.status(404).json({
+        message: 'Пользователь не найден',
+      });
+    }
 
-    res.json({
-      ...userData,
-    })
+    const { passwordHash, ...userData } = user._doc;
+
+    res.json(userData);
   } catch (e) {
     console.log(e)
     res.status(500).json({
@@ -99,7 +105,17 @@ export const getInfo = async (req, res) => {
 
 export const getInfoByID = async (req, res) => {
   try {
+    const user = await UserModel.findById(req.body.id);
 
+    if (!user) {
+      return res.status(404).json({
+        message: 'Пользователь не найден',
+      });
+    }
+
+    const { passwordHash, ...userData } = user._doc;
+
+    res.json(userData);
   } catch (e) {
     console.log(e)
     res.status(500).json({

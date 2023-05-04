@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import {Picker} from '@react-native-picker/picker';
-import {View, Text} from "react-native";
+import React, {useEffect, useState} from 'react'
+import {Picker} from '@react-native-picker/picker'
+import {View, Text} from "react-native"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const UIPicker = ({ options, title }) => {
-  const [selectedValue, setSelectedValue] = useState([0]);
+const UIPicker = ({ options, title, onChange, index }) => {
+  const [selectedValue, setSelectedValue] = useState(options[index])
 
-  const handleValueChange = (value) => {
-    setSelectedValue(value)
+  const handleValueChange = (itemValue, itemIndex) => {
+    setSelectedValue(itemValue);
+    onChange(itemValue);
   };
 
   return (

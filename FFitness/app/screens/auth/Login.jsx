@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
 import {Alert, Text, View} from "react-native"
-import axios from "axios";
+import axios from "axios"
 
 import UIButton from "../../ui/UIButton"
 import UIField from "../../ui/UIField"
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import {URLA} from "../../../axios"
+import {setUserStorage} from "../../model/Storage"
 
 const Login = ({ navigation }) => {
   const [data, setData] = useState({login: '89173085293', pass: 'vadim2323'})
@@ -16,7 +17,7 @@ const Login = ({ navigation }) => {
 
   const fetchAPI = async () => {
     try {
-      return await axios.post(`/login`, fields)
+      return await axios.post(`${URLA}/login`, fields)
     } catch (e) {
       console.log('Ошибка отправки данных на сервер:', e)
     }
@@ -25,12 +26,7 @@ const Login = ({ navigation }) => {
   const loginHandler = async () => {
     const result = await fetchAPI()
     if (result) {
-      await AsyncStorage.setItem('token', result.data.token)
-      await AsyncStorage.setItem('_id', result.data._id)
-      await AsyncStorage.setItem('role', result.data.role)
-      await AsyncStorage.setItem('name', result.data.name)
-      await AsyncStorage.setItem('photo', result.data.avatarURL)
-      await AsyncStorage.setItem('exp', String(result.data.experience))
+      await setUserStorage(result)
       navigation.navigate('Profile')
     } else {
       Alert.alert('Неверный логин или пароль')
