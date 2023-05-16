@@ -20,7 +20,6 @@ const Registration = ({navigation}) => {
   const fetchAPI = async () => {
     try {
       const res = await axios.post( `${URLA}/registration`, fields)
-      console.log(res.data)
     } catch (e) {
       console.log('Ошибка отправки данных на сервер:', e)
       Alert.alert('Ошибка регистрации')
@@ -79,14 +78,12 @@ const Registration = ({navigation}) => {
   return (
     <View className={'px-8 my-auto'}>
       <Text className="font-bold text-4xl mb-[54] text-white text-center">Создайте свой аккаунт</Text>
-
       <View className={'mb-4'}>
         <UIField placeholder={'Ваш номер телефона'} value={user.login} onChange={value => setUser({...user, login: value})}/>
         <UIField placeholder={'Ваше имя'} value={user.name} onChange={value => setUser({...user, name: value})}/>
         <UIField isSecure={true} placeholder={'Ваш пароль'} value={user.pass} onChange={value => setUser({...user, pass: value})}/>
         <UIField isSecure={true} placeholder={'Повторите пароль'} value={user.repeatPass} onChange={value => setUser({...user, repeatPass: value})}/>
       </View>
-
       <UIButton title={'Создать'} onPress={regHandler}/>
       <Text className={'text-primary text-center pt-2'} onPress={() => navigation.navigate('Login')}>Уже есть аккаунт?</Text>
     </View>

@@ -4,9 +4,9 @@ import jwt from "jsonwebtoken"
 
 export const register = async (req, res) => {
   try {
-    const password = req.body.pass
+    const passwordUser = req.body.pass
     const salt = await bcrypt.genSalt(10)
-    const hash = await bcrypt.hash(password, salt)
+    const hash = await bcrypt.hash(passwordUser, salt)
 
     const doc = new UserModel({
       login: req.body.login,
@@ -27,7 +27,7 @@ export const register = async (req, res) => {
         expiresIn: '30d',
     })
 
-    const { passwordHash, ...userData } = user._doc
+    const { password, ...userData } = user._doc
 
     res.json({
       ...userData,
@@ -68,7 +68,7 @@ export const login = async (req, res) => {
       }
     )
 
-    const { passwordHash, ...userData } = user._doc
+    const { password, ...userData } = user._doc
 
     res.json({
       ...userData,
@@ -82,19 +82,19 @@ export const login = async (req, res) => {
   }
 }
 
-export const getInfo = async (req, res) => {
+export const getAll = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.userId);
+    const users = await UserModel.find({ role: "user" });
 
-    if (!user) {
+    if (!users) {
       return res.status(404).json({
         message: 'Пользователь не найден',
       });
     }
 
-    const { passwordHash, ...userData } = user._doc;
+    const { passwordHash, ...usersData } = users._doc;
 
-    res.json(userData);
+    res.json(usersData);
   } catch (e) {
     console.log(e)
     res.status(500).json({
@@ -105,7 +105,7 @@ export const getInfo = async (req, res) => {
 
 export const getInfoByID = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.body.id);
+    const user = await UserModel.findOne(req.body.id);
 
     if (!user) {
       return res.status(404).json({
@@ -113,7 +113,7 @@ export const getInfoByID = async (req, res) => {
       });
     }
 
-    const { passwordHash, ...userData } = user._doc;
+    const { password, ...userData } = user._doc;
 
     res.json(userData);
   } catch (e) {

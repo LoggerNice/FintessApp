@@ -24,7 +24,7 @@ export const create = async (req, res) => {
   }
 }
 
-export const okeey = async (req, res) => {
+export const getForm = async (req, res) => {
   try {
     const form = await MedicalForm.findOne({userID: req.params.id})
     if(!form) {

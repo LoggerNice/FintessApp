@@ -1,13 +1,15 @@
 import React, {useState} from 'react'
 import {Alert, Text, View} from "react-native"
 import axios from "axios"
+import {useNavigation} from "@react-navigation/native"
 
 import UIButton from "../../ui/UIButton"
 import UIField from "../../ui/UIField"
 import {URLA} from "../../../axios"
 import {setUserStorage} from "../../model/Storage"
 
-const Login = ({ navigation }) => {
+const Login = () => {
+  const navigation = useNavigation()
   const [data, setData] = useState({login: '89173085293', pass: 'vadim2323'})
   const {login, pass} = data
   const fields = {
@@ -27,7 +29,10 @@ const Login = ({ navigation }) => {
     const result = await fetchAPI()
     if (result) {
       await setUserStorage(result)
-      navigation.navigate('Profile')
+      if (result.data.role === 'user' || result.data.role === 'moderator')
+        navigation.navigate('Profile')
+      else
+        navigation.navigate('UserList')
     } else {
       Alert.alert('Неверный логин или пароль')
     }

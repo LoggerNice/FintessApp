@@ -2,14 +2,29 @@ import {Image, ScrollView, Text, TouchableOpacity, View} from "react-native"
 import React, {useEffect, useState} from "react"
 import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons'
 
-import ProgramList from "./ProgramList"
+import ProgramList from "../trening/ProgramList"
 import MedForm from "../form/MedForm"
-import {clearStorage} from "../../model/Storage"
-import useUser from "../../model/User"
+import {clearStorage, getUserStorage} from "../../model/Storage"
+import {useNavigation} from "@react-navigation/native";
+import Navigation from "../../navigation/Navigation";
 
-const ProfileScreen = ({navigation}) => {
-  const {user} = useUser()
+const ProfileScreen = () => {
+  const navigation = useNavigation()
+  const {userID: id} = getUserStorage()
+  const [user, setUser] = useState({role: '', token: '', name: 'Вадим', exp: 352, photo: "https://i.yapx.cc/PdTRU.jpg"})
   const level = Math.floor(user.exp / 100)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const {token, name, exp, role, photo} = await getUserStorage()
+        setUser({role: role, token: token, name: name, exp: exp, photo: photo})
+      } catch (e) {
+        console.log('Ошибка получения данных пользователя.', e)
+      }
+    }
+    fetchData()
+  }, [])
 
   const logout = async () => {
     try {
@@ -47,14 +62,14 @@ const ProfileScreen = ({navigation}) => {
             </View>
           </View>
         </View>
-        <MedForm/>
+        <MedForm userID={id}/>
         <View className={'flex-row justify-between mb-5'}>
           <Text className={'text-xl text-white'}>Тренировки</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Program')}>
             <Text className={'my-auto text-primary'}>Перейти -></Text>
           </TouchableOpacity>
         </View>
-        <ProgramList/>
+        <ProgramList userID={id}/>
       </View>
     </View>
     </ScrollView>

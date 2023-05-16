@@ -3,20 +3,9 @@ import {useEffect, useState} from "react"
 import { MaterialIcons } from '@expo/vector-icons'
 
 import UIField from "./UIField"
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import useMedForm from "../model/MedForm";
-
 const UIAddList = ({onChange}) => {
   const [disease, setDisease] = useState('')
   const [diseasesList, setDiseasesList] = useState([])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const desease = await AsyncStorage.getItem('desease')
-      setDiseasesList(JSON.parse(desease))
-    }
-    fetchData()
-  }, [])
 
   const handleAddDisease = () => {
     if (disease.trim() === '') return
