@@ -1,13 +1,13 @@
-import {Text, TouchableOpacity, View, StyleSheet} from "react-native"
-import React, {useEffect, useRef} from "react"
-import {Ionicons, MaterialIcons} from "@expo/vector-icons"
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/main/HomeScreen";
-import BrowseScreen from "../screens/browse/BrowseScreen";
-import TreningScreen from "../screens/trening/TreningScreen";
-import ProfileScreen from "../screens/profile/ProfileScreen";
-import {Colors} from "react-native/Libraries/NewAppScreen";
-import Icon, {Icons} from "../ui/Icons";
+import {Text, TouchableOpacity, StyleSheet} from "react-native"
+import React, {useEffect} from "react"
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
+import HomeScreen from "../screens/main/HomeScreen"
+import BrowseScreen from "../screens/browse/BrowseScreen"
+import TreningScreen from "../screens/trening/TreningScreen"
+import ProfileScreen from "../screens/profile/ProfileScreen"
+import Icon, {Icons} from "../ui/Icons"
+import {getUserStorage} from "../model/Storage"
+import {useNavigation} from "@react-navigation/native"
 
 const TabArr = [
   { route: 'Home', label: 'Главная', type: Icons.Ionicons, activeIcon: 'home', component: HomeScreen },
@@ -60,31 +60,8 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     height: 80,
-    position: 'absolute',
-    bottom: 20,
-    borderRadius: 16,
-  },
-  btn: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    borderWidth: 4,
-    borderColor: Colors.white,
-    backgroundColor: Colors.white,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  circle: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.primary,
-    borderRadius: 25,
-  },
-  text: {
-    fontSize: 10,
-    textAlign: 'center',
-    color: Colors.white,
+    marginBottom: 20,
+    borderRadius: 16
   }
 })
 

@@ -5,20 +5,19 @@ import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons'
 import ProgramList from "../trening/ProgramList"
 import MedForm from "../form/MedForm"
 import {clearStorage, getUserStorage} from "../../model/Storage"
-import {useNavigation} from "@react-navigation/native";
-import Navigation from "../../navigation/Navigation";
+import {useNavigation} from "@react-navigation/native"
 
 const ProfileScreen = () => {
   const navigation = useNavigation()
-  const {userID: id} = getUserStorage()
-  const [user, setUser] = useState({role: '', token: '', name: 'Вадим', exp: 352, photo: "https://i.yapx.cc/PdTRU.jpg"})
+  const [user, setUser] = useState({id: '', role: '', token: '', name: 'Вадим', exp: 352, photo: "https://i.yapx.cc/PdTRU.jpg"})
   const level = Math.floor(user.exp / 100)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const {token, name, exp, role, photo} = await getUserStorage()
-        setUser({role: role, token: token, name: name, exp: exp, photo: photo})
+        const {id, token, name, exp, role, photo} = await getUserStorage()
+        if(!token) navigation.navigate('Login')
+        setUser({id: id, role: role, token: token, name: name, exp: exp, photo: photo})
       } catch (e) {
         console.log('Ошибка получения данных пользователя.', e)
       }
@@ -37,7 +36,7 @@ const ProfileScreen = () => {
 
   return (
     <ScrollView>
-    <View className={'my-5 mx-4'}>
+    <View className={'mt-5 mx-4'}>
       <View className={'items-center'}>
         <View className={'flex flex-row justify-between w-screen'}>
           <MaterialCommunityIcons.Button name="account-edit" size={34} color="white" onPress={() => navigation.navigate('EditProfile')} backgroundColor='null'/>
@@ -62,14 +61,16 @@ const ProfileScreen = () => {
             </View>
           </View>
         </View>
-        <MedForm userID={id}/>
+        <MedForm userID={user.id}/>
         <View className={'flex-row justify-between mb-5'}>
           <Text className={'text-xl text-white'}>Тренировки</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Program')}>
             <Text className={'my-auto text-primary'}>Перейти -></Text>
           </TouchableOpacity>
         </View>
-        <ProgramList userID={id}/>
+        <View className={'items-center'}>
+          <ProgramList userID={user.id}/>
+        </View>
       </View>
     </View>
     </ScrollView>

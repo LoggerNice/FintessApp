@@ -105,7 +105,7 @@ export const getAll = async (req, res) => {
 
 export const getInfoByID = async (req, res) => {
   try {
-    const user = await UserModel.findOne(req.body.id);
+    const user = await UserModel.findOne({_id: req.params.id});
 
     if (!user) {
       return res.status(404).json({

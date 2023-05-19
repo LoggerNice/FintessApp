@@ -7,8 +7,9 @@ export const getUserStorage = async () => {
   const exp = await AsyncStorage.getItem('exp')
   const role = await AsyncStorage.getItem('role')
   const photo = await AsyncStorage.getItem('photo')
+  const access = await AsyncStorage.getItem('access')
 
-  return {id, token, name, exp, role, photo}
+  return {id, token, name, exp, role, photo, access}
 }
 
 export const clearStorage = async () => {

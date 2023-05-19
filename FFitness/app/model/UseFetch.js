@@ -20,7 +20,7 @@ const useFetch = (url) => {
         })
       }
     } catch (e) {
-      console.log("Ошибка запроса. ", e)
+      console.log("Ошибка запроса.", url, e)
       setFetchedData({
         data: [],
         isLoading: false,

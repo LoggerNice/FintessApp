@@ -1,19 +1,19 @@
 import mongoose from 'mongoose'
 
 const ProgramSchema = new mongoose.Schema({
-  login: {
-    type: String,
-    required: true,
-    unique: true,
+  userID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    require: true
   },
-  password: {
-    type: String,
-    required: true,
+  warmUp: {
+    type: Array,
+    require: true
   },
-  name: String,
-  avatarURL: String,
-  role: String,
-  experience: Number,
+  training: {
+    type: Array,
+    require: true
+  }
 }, {
   timestamps: true,
 })

@@ -30,7 +30,7 @@ const Login = () => {
     if (result) {
       await setUserStorage(result)
       if (result.data.role === 'user' || result.data.role === 'moderator')
-        navigation.navigate('Profile')
+        navigation.navigate('Navigation')
       else
         navigation.navigate('UserList')
     } else {

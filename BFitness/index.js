@@ -4,7 +4,13 @@ import multer from 'multer'
 import dotenv from 'dotenv'
 import * as fs from 'fs'
 
-import {UserController, PostController, MedicalController, ProgramController} from "./controllers/index.js"
+import {
+  UserController,
+  PostController,
+  MedicalController,
+  ProgramController,
+  ExerciseController
+} from "./controllers/index.js"
 
 dotenv.config()
 
@@ -52,11 +58,16 @@ app.get('/users', UserController.getAll)
 app.get('/medical/:id', MedicalController.getForm)
 app.post('/medical', MedicalController.create)
 app.patch('/medical', MedicalController.update)
-//Программа тренировок
 
+//Программа тренировок
 app.get('/program/:id', ProgramController.getByID)
-app.post('/program', ProgramController.create)
+app.get('/program', ProgramController.getAll)
+app.post('/program/create', ProgramController.create)
 app.patch('/program', ProgramController.update)
+
+//Упражнения
+app.get('/exercises', ExerciseController.getAll)
+app.get('/exercises/:id', ExerciseController.getByID)
 
 //Посты
 app.post('/posts', PostController.create)
