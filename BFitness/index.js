@@ -51,17 +51,17 @@ app.post('/login', UserController.login)
 
 //Личный кабинет
 app.get('/profile/:id', UserController.getInfoByID)
-app.patch('/profile', UserController.update)
+app.patch('/profile/:id', UserController.update)
 app.get('/users', UserController.getAll)
 
 //Мед анкета
 app.get('/medical/:id', MedicalController.getForm)
 app.post('/medical', MedicalController.create)
-app.patch('/medical', MedicalController.update)
+app.patch('/medical/:id', MedicalController.update)
 
 //Программа тренировок
 app.get('/program/:id', ProgramController.getByID)
-app.get('/program', ProgramController.getAll)
+app.post('/program/generate', ProgramController.generate)
 app.post('/program/create', ProgramController.create)
 app.patch('/program', ProgramController.update)
 

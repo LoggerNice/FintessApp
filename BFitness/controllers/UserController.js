@@ -14,7 +14,8 @@ export const register = async (req, res) => {
       name: req.body.name,
       avatarURL: req.body.avatarURL || 'https://www.pinclipart.com/picdir/big/165-1653686_female-user-icon-png-download-user-colorful-icon.png',
       role: 'user',
-      experience: 0,
+      experience: 100,
+      acceptInstruction: false,
     })
     const user = await doc.save()
 
@@ -84,17 +85,20 @@ export const login = async (req, res) => {
 
 export const getAll = async (req, res) => {
   try {
-    const users = await UserModel.find({ role: "user" });
+    const users = await UserModel.find({role: 'user'})
 
     if (!users) {
       return res.status(404).json({
-        message: 'Пользователь не найден',
-      });
+        message: 'Пользователи не найдены',
+      })
     }
 
-    const { passwordHash, ...usersData } = users._doc;
+    const data = users.map(user => {
+      const { password, ...userData } = user._doc
+      return userData
+    })
 
-    res.json(usersData);
+    res.json({data})
   } catch (e) {
     console.log(e)
     res.status(500).json({
@@ -126,7 +130,7 @@ export const getInfoByID = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-
+    await UserModel.updateOne({_id: req.params.id}, {$set: req.body.data})
   } catch (e) {
     console.log(e)
     res.status(500).json({

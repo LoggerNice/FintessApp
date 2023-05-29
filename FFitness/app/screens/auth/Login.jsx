@@ -1,12 +1,12 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Alert, Text, View} from "react-native"
 import axios from "axios"
 import {useNavigation} from "@react-navigation/native"
-
 import UIButton from "../../ui/UIButton"
 import UIField from "../../ui/UIField"
 import {URLA} from "../../../axios"
 import {setUserStorage} from "../../model/Storage"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = () => {
   const navigation = useNavigation()
@@ -16,6 +16,20 @@ const Login = () => {
     login,
     pass,
   }
+
+  useEffect(() => {
+    AsyncStorage.getItem('token').then(token => {
+      const role = AsyncStorage.getItem('role').then(r => console.log('Ошибка получения роли пользователя.', r))
+      if(token) {
+        if (String(role) === 'user')
+          navigation.navigate('Navigation')
+        else
+          navigation.navigate('NavigationMed')
+      }
+    }).catch(e => {
+      console.log('Ошибка получения токена пользователя.', e)
+    })
+  }, [])
 
   const fetchAPI = async () => {
     try {
@@ -29,10 +43,10 @@ const Login = () => {
     const result = await fetchAPI()
     if (result) {
       await setUserStorage(result)
-      if (result.data.role === 'user' || result.data.role === 'moderator')
-        navigation.navigate('Navigation')
+      if (result.data.role === 'user')
+        navigation.navigate(result.data.acceptInstruction ? 'Navigation' : 'Instruction')
       else
-        navigation.navigate('UserList')
+        navigation.navigate('NavigationMed')
     } else {
       Alert.alert('Неверный логин или пароль')
     }

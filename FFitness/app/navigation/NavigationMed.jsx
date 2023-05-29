@@ -1,15 +1,14 @@
 import {Text, TouchableOpacity, StyleSheet} from "react-native"
-import React, {useEffect} from "react"
+import React from "react"
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
-import HomeScreen from "../screens/main/HomeScreen"
 import ExercisesScreen from "../screens/browse/ExercisesScreen"
 import TreningScreen from "../screens/trening/TreningScreen"
 import ProfileScreen from "../screens/profile/ProfileScreen"
 import Icon, {Icons} from "../ui/Icons"
+import UserList from "../screens/profile/UserList"
 
 const TabArr = [
-  { route: 'Home', label: 'Главная', type: Icons.Ionicons, activeIcon: 'home', component: HomeScreen },
-  { route: 'Browse', label: 'Упражнения', type: Icons.Ionicons, activeIcon: 'ios-compass', component: ExercisesScreen },
+  { route: 'UserList', label: 'Клиенты', type: Icons.Ionicons, activeIcon: 'home', component: UserList },
   { route: 'Trening', label: 'Тренировки', type: Icons.MaterialIcons, activeIcon: 'fitness-center', component: TreningScreen },
   { route: 'Profile', label: 'Профиль', type: Icons.FontAwesome, activeIcon: 'user', component: ProfileScreen },
 ];
@@ -33,17 +32,14 @@ const TabButton = (props) => {
 function Navigation() {
   return (
     <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: styles.tabBar}}>
-      <Tab.Screen name={'Home'} label='Hello' component={HomeScreen} options={{
+      <Tab.Screen name={'Home'} label='Hello' component={UserList} options={{
         tabBarButton: (props) => <TabButton {...props} item={TabArr[0]} />
       }}/>
-      <Tab.Screen name={'Browse'} component={ExercisesScreen} options={{
+      <Tab.Screen name={'Trening'} component={TreningScreen} options={{
         tabBarButton: (props) => <TabButton {...props} item={TabArr[1]} />
       }}/>
-      <Tab.Screen name={'Trening'} component={TreningScreen} options={{
-        tabBarButton: (props) => <TabButton {...props} item={TabArr[2]} />
-      }}/>
       <Tab.Screen name={'Profile'} component={ProfileScreen} options={{
-        tabBarButton: (props) => <TabButton {...props} item={TabArr[3]} />
+        tabBarButton: (props) => <TabButton {...props} item={TabArr[2]} />
       }}/>
     </Tab.Navigator>
   );

@@ -6,10 +6,6 @@ const ProgramSchema = new mongoose.Schema({
     ref: 'User',
     require: true
   },
-  warmUp: {
-    type: Array,
-    require: true
-  },
   training: {
     type: Array,
     require: true

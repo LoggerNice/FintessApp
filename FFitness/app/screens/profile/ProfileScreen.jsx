@@ -35,7 +35,7 @@ const ProfileScreen = () => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
     <View className={'mt-5 mx-4'}>
       <View className={'items-center'}>
         <View className={'flex flex-row justify-between w-screen'}>
@@ -50,7 +50,8 @@ const ProfileScreen = () => {
       <View className={'mb-5'}>
         <View className={'mt-4 py-4 bg-white rounded-2xl'}>
           <View className={'flex-row px-5'}>
-            <Text style={{borderColor: '#BCB3E2', borderWidth: 5}} className={'font-bold my-auto bg-primary pt-[10px] text-center rounded-full text-xl w-[50px] h-[50px] text-white'}>{level}
+            <Text style={{borderColor: '#BCB3E2', borderWidth: 5}}
+                  className={'font-bold my-auto bg-primary pt-[10px] text-center rounded-full text-xl w-[50px] h-[50px] text-white'}>{level}
             </Text>
             <View className={'w-full px-5'}>
               <View className={'flex-row justify-between pr-8'}>
@@ -62,15 +63,19 @@ const ProfileScreen = () => {
           </View>
         </View>
         <MedForm userID={user.id}/>
-        <View className={'flex-row justify-between mb-5'}>
-          <Text className={'text-xl text-white'}>Тренировки</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Program')}>
-            <Text className={'my-auto text-primary'}>Перейти -></Text>
-          </TouchableOpacity>
-        </View>
-        <View className={'items-center'}>
-          <ProgramList userID={user.id}/>
-        </View>
+        {user.role !== 'medic' &&
+          <View>
+            <View className={'flex-row justify-between mb-5'}>
+              <Text className={'text-xl text-white'}>Тренировки</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Trening')}>
+                <Text className={'my-auto text-primary'}>Перейти ➔</Text>
+              </TouchableOpacity>
+            </View>
+            <View className={'-mr-4'}>
+              <ProgramList userID={user.id} isHorizontal={true}/>
+            </View>
+          </View>
+        }
       </View>
     </View>
     </ScrollView>

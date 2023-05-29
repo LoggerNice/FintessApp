@@ -1,37 +1,32 @@
 import Program from "../models/Program.js"
-import Exercises from "../models/Exercises.js";
+import {createTrainingProgram} from "./GenerateProgram.js"
 
-const searchInObject = (object, formData) => {
-  let result = null
-
-  for (const level in object) {
-    if (level === formData) {
-      result = object[level]
-      break
-    }
+export const generate = async (req, res) => {
+  const data = req.body.form
+  const anthropometricData = {
+    weight: data.weight,
+    height: data.height,
+    age: data.age
   }
 
-  return result
+  createTrainingProgram(data.goal, data.levelTrening, anthropometricData)
+    .then(trainingProgram => {
+      const doc = new Program({
+        userID: data.userID,
+        training: trainingProgram
+      })
+
+      const program = doc.save()
+      res.json(program)
+    })
+    .catch(err => {
+      console.log('Список упражнений не сформировался.', err)
+      return res.status(404).json({
+        message: 'Список упражнений не сформировался'
+      })
+    })
 }
-
-export const create = async (req, res) => {
-  const {form} = req.body
-
-  const levels = {'Начинающий': 5, 'Средний': 7, 'Опытный': 9}
-  const goalTypes = {
-    'Поддержание формы': ['Силовая', 'Кардио'],
-    'Похудение': ['Кардио'],
-    'Набор массы': ['Силовая']
-  }
-
-  const numberOfExercises = searchInObject(levels, form.levelTrening)
-  const exerciseTypes = searchInObject(goalTypes, form.goal)
-
-  Exercises.find({type: { $in: exerciseTypes }, difficulty: form.levelTrening}).limit(numberOfExercises).exec((err, exercises) => {
-    if (err) throw err;
-    console.log(exercises);
-  });
-}
+export const create = async (req, res) => {}
 export const update = async (req, res) => {}
 export const remove = async (req, res) => {}
 export const getByID = async (req, res) => {

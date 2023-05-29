@@ -1,13 +1,12 @@
 import {Text, TouchableOpacity, View} from "react-native"
 import {useNavigation} from "@react-navigation/native"
-import React, {useEffect} from "react"
+import React from "react"
 
 import {URLA} from "../../../axios"
 import UIButton from "../../ui/UIButton"
 import useFetch from "../../model/UseFetch"
-import {setMedStorage} from "../../model/Storage";
 
-const MedForm = ({userID}) => {
+const MedForm = ({userID, role}) => {
   const navigation = useNavigation()
   const url = `${URLA}/medical/${userID}`
   const {data: {form}, isLoading} = useFetch(url)
@@ -16,8 +15,8 @@ const MedForm = ({userID}) => {
     <View className={'my-6 px-5 py-4 bg-white rounded-2xl space-y-3'}>
       <View className={'flex-row justify-between py-2'}>
         <Text className={'text-[22px] text-second font-bold'}>Медицинская анкета</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('EditMed', {form, userID})}>
-          <Text className={'my-auto text-primary'}>Перейти -></Text>
+        <TouchableOpacity onPress={() => navigation.navigate('EditMed', {form, userID, role})}>
+          <Text className={'my-auto text-primary'}>Перейти ➔</Text>
         </TouchableOpacity>
       </View>
       {isLoading ?

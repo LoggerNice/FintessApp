@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema({
   avatarURL: String,
   role: String,
   experience: Number,
+  acceptInstruction: Boolean,
   }, {
   timestamps: true,
 })

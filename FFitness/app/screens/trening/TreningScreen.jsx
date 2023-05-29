@@ -23,20 +23,20 @@ const TreningScreen = () => {
   }, [])
 
   return (
-    <View>
-      <View className={'mt-5 mx-4 flex flex-row justify-between items-center'}>
+    <View className={'mb-5'}>
+      <View className={'mx-4 mt-5 mb-6 flex flex-row justify-between items-center'}>
         <View className={'flex-row items-center'}>
-          <Ionicons name="arrow-back" size={30} color="white" backgroundColor='null'/>
-          <Text className={'font-semibold text-xl text-white pl-2'}>Тренировки</Text>
+          <Ionicons name="newspaper" size={30} color="white" backgroundColor='null'/>
+          <Text className={'font-semibold text-xl text-white pl-3'}>Программа</Text>
         </View>
         <View className={'flex flex-row'}>
-          <TouchableOpacity onPress={() => {}} className={'ml-4'}>
+          <TouchableOpacity onPress={() => {console.log('Переадресация на страницу с заметками')}} className={'ml-4'}>
             <Ionicons name={"heart-sharp"} size={30} color="white" backgroundColor='none'/>
           </TouchableOpacity>
         </View>
       </View>
-      <View className={'items-center mt-7'}>
-        <ProgramList userID={user.id}/>
+      <View className={'w-screen mt-2'}>
+        <ProgramList userID={user.id} isHorizontal={false}/>
       </View>
     </View>
   )

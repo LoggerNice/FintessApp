@@ -1,10 +1,9 @@
 import {Alert, Text, View} from "react-native"
 import React, {useState} from "react"
 import axios from "axios"
-
 import UIButton from "../../ui/UIButton"
 import UIField from "../../ui/UIField"
-import {URLA} from "../../../axios";
+import {URLA} from "../../../axios"
 
 const Registration = ({navigation}) => {
   const [user, setUser] = useState({login: '', name: '', pass: '', repeatPass: ''})

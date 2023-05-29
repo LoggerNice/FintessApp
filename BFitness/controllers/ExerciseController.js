@@ -2,8 +2,8 @@ import Exercises from "../models/Exercises.js"
 
 export const getByID = async (req, res) => {
   try {
-    const data = await Exercises.findOne({_id: req.params.id})
-    if(!data) {
+    const exercise = await Exercises.findOne({_id: req.params.id})
+    if(!exercise) {
       console.log('Информация об упражнении не найдена')
       return res.status(404).json({
         message: 'Информация об упражнении не найдена'
@@ -11,7 +11,7 @@ export const getByID = async (req, res) => {
     }
 
     res.json({
-      data
+      exercise
     })
   } catch (e) {
     console.log(e)
@@ -22,8 +22,8 @@ export const getByID = async (req, res) => {
 }
 export const getAll = async (req, res) => {
   try {
-    const data = await Exercises.find()
-    if(!data) {
+    const exercise = await Exercises.find({})
+    if(!exercise) {
       console.log('Упражнения не найдены')
       return res.status(404).json({
         message: 'Упражнения не найдены'
@@ -31,7 +31,7 @@ export const getAll = async (req, res) => {
     }
 
     res.json({
-      data
+      exercise
     })
   } catch (e) {
     console.log(e)

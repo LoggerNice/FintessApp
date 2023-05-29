@@ -1,4 +1,5 @@
 import MedicalForm from "../models/MedicalForm.js";
+import UserModel from "../models/User.js";
 
 export const create = async (req, res) => {
   try {
@@ -47,7 +48,7 @@ export const getForm = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-
+    await MedicalForm.updateOne({userID: req.params.id}, {$set: req.body.data})
   } catch (e) {
     console.log(e)
     res.status(500).json({

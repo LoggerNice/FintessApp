@@ -6,7 +6,7 @@ const UILike = () => {
   const [like, setLike] = useState(false)
 
   return (
-    <TouchableOpacity onPress={() => setLike(!like)} className={'ml-4'} disabled={true}>
+    <TouchableOpacity onPress={() => setLike(!like)} className={'ml-4'} disabled={false}>
       <Ionicons name={like ? "heart-sharp" : "heart-outline"} size={30} color="white" backgroundColor='none'/>
     </TouchableOpacity>
   )

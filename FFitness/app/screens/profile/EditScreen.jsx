@@ -1,6 +1,6 @@
-import {View} from "react-native";
-import axios from "axios";
-import {URLA} from "../../../axios";
+import {View} from "react-native"
+import axios from "axios"
+import {URLA} from "../../../axios"
 
 const EditScreen = ({navigation}) => {
   const fetchAPI = async () => {
