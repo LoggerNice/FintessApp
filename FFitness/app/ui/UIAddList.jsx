@@ -1,43 +1,56 @@
 import {View, Text} from "react-native"
+import { CheckBox } from '@rneui/themed'
 import {useEffect, useState} from "react"
-import { MaterialIcons } from '@expo/vector-icons'
 
-import UIField from "./UIField"
-const UIAddList = ({onChange}) => {
-  const [disease, setDisease] = useState('')
-  const [diseasesList, setDiseasesList] = useState([])
+const UIAddList = ({value, onChange}) => {
+  const [diseases, setDiseases] = useState([
+    { id: 1, name: 'Заболевания дыхательной системы'},
+    { id: 2, name: 'Заболевания сердца \\ сосудов'},
+    { id: 3, name: 'Проблемы с суставами'},
+    { id: 4, name: 'Беременность'},
+    { id: 5, name: 'Наличие травм'},
+    { id: 6, name: 'Повышенное арт. давление'},
+  ])
 
-  const handleAddDisease = () => {
-    if (disease.trim() === '') return
-    setDiseasesList([...diseasesList, disease.trim()])
-    setDisease('')
-    onChange(diseasesList)
-  }
+  useEffect(() => {
+    const updatedDiseases = diseases.map(disease => ({
+      ...disease,
+      checked: value.includes(disease.id),
+    }))
 
-  const handleRemDisease = (index) => {
-    setDiseasesList(prevList => {
-      const newList = [...prevList]
-      newList.splice(index, 1)
-      return newList
+    setDiseases(updatedDiseases)
+  }, [])
+
+  const handleToggleCheckbox = (diseaseId) => {
+    const updatedDiseases = diseases.map(disease => {
+      if (disease.id === diseaseId) {
+        return { ...disease, checked: !disease.checked }
+      }
+
+      return disease
     })
-    onChange(diseasesList)
+
+    const selectedDiseaseIds = diseases
+      .filter(disease => disease.checked)
+      .map(disease => disease.id)
+    onChange(selectedDiseaseIds)
+
+    setDiseases(updatedDiseases)
   }
 
   return (
     <View className={'pt-3 mb-[20px] border-0 rounded-xl bg-input text-white'}>
-      <Text className={'text-white opacity-50 pb-3 pl-5'}>Заболевания</Text>
-      {diseasesList.length > 0 ? diseasesList.map((disease, index) => (
-        <View className={'flex-row justify-between pl-5 pr-1 items-center'}>
-          <Text key={index} className={'text-white'}>{disease}</Text>
-          <MaterialIcons.Button name="delete" size={30} color="white" onPress={() => handleRemDisease(index)} backgroundColor='null'/>
+      <Text className={'text-white opacity-50 mb-3 pl-5'}>Заболевания</Text>
+      {diseases.map(disease => (
+        <View key={disease.id} className={'flex-row justify-between items-center mb-1.5 ml-5'}>
+          <Text className={'text-white'}>{disease.name}</Text>
+          <CheckBox
+            containerStyle={{backgroundColor: 'transparent', padding: 0}}
+            checked={disease.checked}
+            onPress={() => handleToggleCheckbox(disease.id)}
+          />
         </View>
-      )) : <Text className={'text-white pl-5'}>Пусто</Text>}
-      <View className={'flex-row justify-between pr-1 items-center border-t-2 border-[#181A20] mt-3'}>
-        <View className={'pt-4'}>
-          <UIField placeholder={'Название заболевания'} value={disease} onChange={(value) => setDisease(value)}/>
-        </View>
-        <MaterialIcons.Button name="add-circle" size={30} color="white" onPress={handleAddDisease} backgroundColor='null'/>
-      </View>
+      ))}
     </View>
   )
 }

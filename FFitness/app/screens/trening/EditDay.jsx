@@ -1,4 +1,4 @@
-import {Alert, ScrollView, Text, TouchableHighlight, TouchableOpacity, View} from "react-native"
+import {Alert, KeyboardAvoidingView, ScrollView, Text, TouchableHighlight, TouchableOpacity, View} from "react-native"
 import React, {useState} from "react"
 import {useNavigation} from "@react-navigation/native"
 import {Ionicons, MaterialIcons} from "@expo/vector-icons"
@@ -31,7 +31,7 @@ const EditDay = ({route}) => {
   }
 
   return (
-    <View className={'mx-4 mb-6'}>
+    <KeyboardAvoidingView className={'mx-4 mb-6'} behavior="padding" enabled>
       <View className={'my-5 flex flex-row justify-between items-center'}>
         <TouchableOpacity onPress={() => navigation.goBack()} className={'flex flex-row items-center'}>
           <Ionicons name="arrow-back" size={30} color="white" backgroundColor='null'/>
@@ -78,7 +78,7 @@ const EditDay = ({route}) => {
           <UIButton title={'Сохранить'} onPress={saveHandler}/>
         </View>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 

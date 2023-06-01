@@ -1,11 +1,10 @@
 import {Alert, Image, ScrollView, Text, TouchableHighlight, View} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {URLA} from "../../../axios"
-import useFetch from "../../model/UseFetch"
 import UIButton from "../../ui/UIButton"
 import axios from "axios"
-import {useEffect, useState} from "react";
-import {getUserStorage} from "../../model/Storage";
+import {useEffect, useState} from "react"
+import {getUserStorage} from "../../model/Storage"
 
 const ProgramList = ({isHorizontal}) => {
   const navigation = useNavigation()
@@ -22,7 +21,6 @@ const ProgramList = ({isHorizontal}) => {
 
   useEffect(() => {
     const fetchData = async () => {
-
       const {id} = await getUserStorage()
       const response = await axios.get(`${URLA}/program/${id}`)
       setProgram(response.data.program.training)
@@ -48,9 +46,9 @@ const ProgramList = ({isHorizontal}) => {
 
   if(!isLoadingProgram) return (
     <View className={'space-y-3 items-center -ml-4'}>
-      <View className={'w-[270px]'}>
-        <UIButton title={'Создать вручную'} onPress={() => {}}/>
-      </View>
+      {/*<View className={'w-[270px]'}>*/}
+      {/*  <UIButton title={'Создать вручную'} onPress={() => {}}/>*/}
+      {/*</View>*/}
       <View className={'w-[270px]'}>
         <UIButton title={'Сгенерировать'} onPress={generateProgram}/>
       </View>

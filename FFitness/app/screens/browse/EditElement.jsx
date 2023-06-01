@@ -1,6 +1,6 @@
 import {URLA} from "../../../axios"
 import useFetch from "../../model/UseFetch"
-import {Image, ScrollView, Text, TouchableOpacity, View} from "react-native"
+import {Image, KeyboardAvoidingView, ScrollView, Text, TouchableOpacity, View} from "react-native"
 import UIButton from "../../ui/UIButton"
 import axios from "axios"
 import {Ionicons} from "@expo/vector-icons"
@@ -62,7 +62,7 @@ const EditElement = ({route}) => {
 
 
   return (
-    <View className={'mx-4 mt-5'}>
+    <KeyboardAvoidingView className={'mx-4 mt-5'} behavior="padding" enabled>
       <TouchableOpacity onPress={() => navigation.goBack()} className={'flex flex-row items-center mb-5'}>
         <Ionicons name="arrow-back" size={30} color="white" backgroundColor='null'/>
         <Text className={'font-semibold text-xl text-white pl-2'}>Назад</Text>
@@ -86,7 +86,7 @@ const EditElement = ({route}) => {
           <UIButton title={'Изменить'} onPress={editHandler}/>
         </View>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 

@@ -1,4 +1,4 @@
-import {Alert, Text, View} from "react-native"
+import {Alert, KeyboardAvoidingView, Text, View} from "react-native"
 import React, {useState} from "react"
 import axios from "axios"
 import UIButton from "../../ui/UIButton"
@@ -75,7 +75,7 @@ const Registration = ({navigation}) => {
   }
 
   return (
-    <View className={'px-8 my-auto'}>
+    <KeyboardAvoidingView className={'px-8 my-auto'} behavior="padding" enabled>
       <Text className="font-bold text-4xl mb-[54] text-white text-center">Создайте свой аккаунт</Text>
       <View className={'mb-4'}>
         <UIField placeholder={'Ваш номер телефона'} value={user.login} onChange={value => setUser({...user, login: value})}/>
@@ -85,7 +85,7 @@ const Registration = ({navigation}) => {
       </View>
       <UIButton title={'Создать'} onPress={regHandler}/>
       <Text className={'text-primary text-center pt-2'} onPress={() => navigation.navigate('Login')}>Уже есть аккаунт?</Text>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 

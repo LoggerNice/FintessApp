@@ -1,4 +1,4 @@
-import {ScrollView, Text, TouchableOpacity, View} from "react-native"
+import {KeyboardAvoidingView, ScrollView, Text, TouchableOpacity, View} from "react-native"
 import UIField from "../../ui/UIField"
 import UIButton from "../../ui/UIButton"
 import {useEffect, useState} from "react"
@@ -32,7 +32,7 @@ const AddNewElement = ({ route }) => {
   }
 
   return (
-    <View className={'mx-4 mt-5'}>
+    <KeyboardAvoidingView className={'mx-4 mt-5'} behavior="padding" enabled>
       <TouchableOpacity onPress={() => navigation.goBack()} className={'flex flex-row items-center mb-5'}>
         <Ionicons name="arrow-back" size={30} color="white" backgroundColor='null'/>
         <Text className={'font-semibold text-xl text-white pl-2'}>Назад</Text>
@@ -56,7 +56,7 @@ const AddNewElement = ({ route }) => {
           <UIButton title={'Добавить'} onPress={addHandler}/>
         </View>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 

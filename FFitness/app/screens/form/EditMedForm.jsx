@@ -8,7 +8,6 @@ import UIPicker from "../../ui/UIPicker"
 import UIAddList from "../../ui/UIAddList"
 import {URLA} from "../../../axios"
 import {useNavigation} from "@react-navigation/native"
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EditMedForm = ({route}) => {
   const navigation = useNavigation()
@@ -21,7 +20,7 @@ const EditMedForm = ({route}) => {
   const fetchPatchAPI = async () => {
     try {
       if(form) {
-        await axios.patch(`${URLA}/medical`, medForm)
+        await axios.patch(`${URLA}/medical/${userID}`, {data: medForm})
       } else {
         await axios.post(`${URLA}/medical`, medForm)
       }
@@ -40,6 +39,7 @@ const EditMedForm = ({route}) => {
     navigation.navigate(() => navigation.goBack())
   }
 
+  console.log(medForm.desease)
   return (
     <ScrollView>
       <View className={'mt-5 mx-4 mb-10'}>
@@ -51,7 +51,7 @@ const EditMedForm = ({route}) => {
           <UIField placeholder={'Ваш рост'} value={medForm.height?.toString()} onChange={value => setMedForm({...medForm, height: value})}/>
           <UIPicker options={listGoal} index={listGoal.indexOf(medForm.goal)} title={'Цель занятия тренировками'} onChange={value => setMedForm({...medForm, goal: value})}/>
           <UIPicker options={listLevel} index={listLevel.indexOf(medForm.levelTrening)} title={'Сложность тренировок'} onChange={value => setMedForm({...medForm, levelTrening: value})}/>
-          <UIAddList onChange={value => setMedForm({...medForm, desease: value})}/>
+          <UIAddList value={medForm.desease} onChange={value => setMedForm({...medForm, desease: value})}/>
         </View>
 
         {medForm.role ?

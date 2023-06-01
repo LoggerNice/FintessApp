@@ -5,7 +5,6 @@ import PostsList from "./posts/PostsList"
 import ProgramList from "../trening/ProgramList"
 import {getUserStorage} from "../../model/Storage"
 import {Ionicons} from "@expo/vector-icons"
-import UIButton from "../../ui/UIButton"
 
 const HomeScreen = () => {
   const navigation = useNavigation()

@@ -38,12 +38,16 @@ const ProfileScreen = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
     <View className={'mt-5 mx-4'}>
       <View className={'items-center'}>
-        <View className={'flex flex-row justify-between w-screen'}>
-          <MaterialCommunityIcons.Button name="account-edit" size={34} color="white" onPress={() => navigation.navigate('EditProfile')} backgroundColor='null'/>
+        <View className={'flex flex-row justify-between w-screen px-4'}>
+          <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+            <MaterialCommunityIcons name="account-edit" size={34} color="white" backgroundColor='null'/>
+          </TouchableOpacity>
           <View className={'w-32 h-32 relative'}>
             <Image style={{borderColor: '#6842FF', borderWidth: 2}} source={{uri: user.photo}} resizeMode="cover" className={'flex-1 rounded-full w-full h-full'}/>
           </View>
-          <Ionicons.Button name="exit-outline" size={32} color="white" onPress={logout} backgroundColor='null'/>
+          <TouchableOpacity onPress={logout}>
+            <Ionicons name="exit-outline" size={32} color="white" backgroundColor='null'/>
+          </TouchableOpacity>
         </View>
         <Text className={'font-bold text-3xl text-center w-screen pt-2 text-white'}>{user.name}</Text>
       </View>
