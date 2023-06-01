@@ -17,7 +17,7 @@ export const generate = async (req, res) => {
       })
 
       const program = doc.save()
-      res.json(program)
+      res.json({program})
     })
     .catch(err => {
       console.log('Список упражнений не сформировался.', err)
@@ -27,7 +27,16 @@ export const generate = async (req, res) => {
     })
 }
 export const create = async (req, res) => {}
-export const update = async (req, res) => {}
+export const update = async (req, res) => {
+  try {
+    await Program.updateOne({userID: req.params.id}, {$set: req.body.data})
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({
+      message: 'Не удалось обновить данные упражнения'
+    })
+  }
+}
 export const remove = async (req, res) => {}
 export const getByID = async (req, res) => {
   try {

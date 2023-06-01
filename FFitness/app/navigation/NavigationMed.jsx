@@ -1,16 +1,20 @@
 import {Text, TouchableOpacity, StyleSheet} from "react-native"
-import React from "react"
+import React, {useEffect, useState} from "react"
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
-import ExercisesScreen from "../screens/browse/ExercisesScreen"
 import TreningScreen from "../screens/trening/TreningScreen"
 import ProfileScreen from "../screens/profile/ProfileScreen"
 import Icon, {Icons} from "../ui/Icons"
 import UserList from "../screens/profile/UserList"
+import PostFull from "../screens/main/posts/PostFull";
+import ExercisesScreen from "../screens/browse/ExercisesScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TabArr = [
   { route: 'UserList', label: 'Клиенты', type: Icons.Ionicons, activeIcon: 'home', component: UserList },
   { route: 'Trening', label: 'Тренировки', type: Icons.MaterialIcons, activeIcon: 'fitness-center', component: TreningScreen },
   { route: 'Profile', label: 'Профиль', type: Icons.FontAwesome, activeIcon: 'user', component: ProfileScreen },
+  { route: 'PostsFull', label: 'Новости', type: Icons.Ionicons, activeIcon: 'home', component: PostFull },
+  { route: 'Browse', label: 'Упражнения', type: Icons.Ionicons, activeIcon: 'ios-compass', component: ExercisesScreen },
 ];
 const Tab = createBottomTabNavigator();
 
@@ -30,13 +34,24 @@ const TabButton = (props) => {
 }
 
 function Navigation() {
+  const [role, setRole] = useState('')
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const _role = await AsyncStorage.getItem('role')
+      setRole(_role)
+    }
+
+    fetchData()
+  }, [role])
+
   return (
     <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: styles.tabBar}}>
-      <Tab.Screen name={'Home'} label='Hello' component={UserList} options={{
-        tabBarButton: (props) => <TabButton {...props} item={TabArr[0]} />
+      <Tab.Screen name={'Home'} component={role === 'moderator' ? PostFull : UserList} options={{
+        tabBarButton: (props) => <TabButton {...props} item={role === 'moderator' ? TabArr[3] : TabArr[0]} />
       }}/>
-      <Tab.Screen name={'Trening'} component={TreningScreen} options={{
-        tabBarButton: (props) => <TabButton {...props} item={TabArr[1]} />
+      <Tab.Screen name={'Trening'} component={role === 'moderator' ? ExercisesScreen : TreningScreen} options={{
+        tabBarButton: (props) => <TabButton {...props} item={role === 'moderator' ? TabArr[4] : TabArr[1]} />
       }}/>
       <Tab.Screen name={'Profile'} component={ProfileScreen} options={{
         tabBarButton: (props) => <TabButton {...props} item={TabArr[2]} />

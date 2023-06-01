@@ -10,10 +10,13 @@ import {getUserStorage} from "../../model/Storage"
 
 const TreningDay = ({ route }) => {
   const navigation = useNavigation()
-  const {day} = route.params
+  const {day, trening, idx} = route.params
   const [program, setProgram] = useState(day)
   const [isVisible, setIsVisible] = useState(false)
-  const [isActive, setIsActive] = useState(true)
+
+  const daysOfWeek = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
+  const currentDayOfWeek = new Date().getDay()
+  const [isActive, setIsActive] = useState(currentDayOfWeek <= daysOfWeek.indexOf(program[0].nameDay))
 
   const handleConfirmation = () => {
     Alert.alert(
@@ -23,7 +26,7 @@ const TreningDay = ({ route }) => {
         { text: 'Отмена', style: 'cancel' },
         { text: 'Да', onPress: async () => {
             setIsVisible(prevState => !prevState)
-            setIsActive(prevState => !prevState)
+            setIsActive(false)
 
             const {id, exp} = await getUserStorage()
             const data = {experience: exp}
@@ -51,7 +54,7 @@ const TreningDay = ({ route }) => {
           <Text className={'font-semibold text-xl text-white pl-2'}>Назад</Text>
         </TouchableOpacity>
         <View className={'flex flex-row'}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.navigate('EditDay', {day, trening, idx})}>
             <MaterialIcons  name="settings-input-component" size={30} color="white" backgroundColor='null'/>
           </TouchableOpacity>
         </View>
@@ -65,16 +68,11 @@ const TreningDay = ({ route }) => {
         }
       </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View className={'flex-row w-full flex-wrap justify-between'}>
+          <View className={'flex-row w-full h-full mb-52 flex-wrap justify-between'}>
             {program?.map(exercise =>
               <TouchableHighlight key={exercise._id} onPress={() => navigation.navigate('Exercise', {id: exercise._id})}>
                 <View className={'relative w-[175px] h-[230px] mb-3'}>
                   <Image source={{uri: exercise.photo}} resizeMode='cover' blurRadius={3} className={'flex-1 opacity-50 rounded-2xl'}/>
-                  <View className={'items-end absolute pt-[15px] pr-4 w-full'}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                      <MaterialIcons name="edit" size={30} color="white" backgroundColor='null'/>
-                    </TouchableOpacity>
-                  </View>
                   <View className={'pl-[20px] pb-[25px] absolute bottom-0 left-0'}>
                     <Text className={'font-bold text-xl text-white pb-1'}>{exercise.name}</Text>
                     <Text className={'text-white text-[16px]'}>{exercise.sets} x {exercise.repetitions} раз</Text>

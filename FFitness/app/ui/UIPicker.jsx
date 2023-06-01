@@ -4,12 +4,19 @@ import {View, Text} from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const UIPicker = ({ options, title, onChange, index }) => {
-  const [selectedValue, setSelectedValue] = useState(options[index])
+  const [selectedValue, setSelectedValue] = useState(options[0])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setSelectedValue(options[index])
+    }
+    fetchData()
+  }, [selectedValue])
 
   const handleValueChange = (itemValue, itemIndex) => {
-    setSelectedValue(itemValue);
-    onChange(itemValue);
-  };
+    setSelectedValue(itemValue)
+    onChange(itemValue)
+  }
 
   return (
     <View className={'bg-input border-0 rounded-xl py-2 px-3 mb-5'}>

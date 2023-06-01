@@ -4,7 +4,8 @@ import {Image, ScrollView, Text, View} from "react-native"
 import UIHeader from "../../../ui/UIHeader"
 
 const PostDetails = ({route}) => {
-  const { id } = route.params
+  const isNews = true
+  const { id, role } = route.params
   const url = `${URLA}/posts/${id}`
   const {data, isLoading} = useFetch(url)
 
@@ -19,7 +20,7 @@ const PostDetails = ({route}) => {
   return (
     <View className={'mt-5 h-full'}>
       <View className={'mb-6 mx-4'}>
-        <UIHeader/>
+        <UIHeader role={role} isNews={isNews} data={data}/>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} className={'flex-1'}>
         {data.post.imageURL && <Image source={{uri: data.post.imageURL}} resizeMode='cover' className={'w-full h-96 rounded-lg mb-4'}/>}

@@ -41,9 +41,11 @@ const Login = () => {
 
   const loginHandler = async () => {
     const result = await fetchAPI()
+    const role = result.data.role
+
     if (result) {
       await setUserStorage(result)
-      if (result.data.role === 'user')
+      if (role === 'user')
         navigation.navigate(result.data.acceptInstruction ? 'Navigation' : 'Instruction')
       else
         navigation.navigate('NavigationMed')

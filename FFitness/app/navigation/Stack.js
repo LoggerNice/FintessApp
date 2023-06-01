@@ -19,6 +19,9 @@ import NavigationMed from "./NavigationMed";
 import ProfileUser from "../screens/profile/ProfileUser";
 import PostsFull from "../screens/main/posts/PostFull";
 import Instruction from "../screens/auth/Instruction";
+import AddNewElement from "../screens/browse/AddNewElement";
+import EditElement from "../screens/browse/EditElement";
+import EditDay from "../screens/trening/EditDay";
 
 darkTheme.colors.background = '#181A20';
 const RootStack = createNativeStackNavigator()
@@ -33,6 +36,9 @@ function Stack() {
         <RootStack.Screen name='Instruction' component={Instruction}/>
         <RootStack.Screen name='Home' component={HomeScreen}/>
         <RootStack.Screen name='Browse' component={ExercisesScreen}/>
+        <RootStack.Screen name='EditDay' component={EditDay}/>
+        <RootStack.Screen name='Add' component={AddNewElement}/>
+        <RootStack.Screen name='Edit' component={EditElement}/>
         <RootStack.Screen name='Exercise' component={ExerciseDetail}/>
         <RootStack.Screen name='Posts' component={PostsList}/>
         <RootStack.Screen name='PostsFull' component={PostsFull}/>

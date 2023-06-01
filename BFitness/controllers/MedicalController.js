@@ -1,5 +1,4 @@
-import MedicalForm from "../models/MedicalForm.js";
-import UserModel from "../models/User.js";
+import MedicalForm from "../models/MedicalForm.js"
 
 export const create = async (req, res) => {
   try {

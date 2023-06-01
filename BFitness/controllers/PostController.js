@@ -24,7 +24,16 @@ export const create = async (req, res) => {
 }
 
 export const remove = async (req, res) => {}
-export const update = async (req, res) => {}
+export const update = async (req, res) => {
+  try {
+    await Post.updateOne({_id: req.params.id}, {$set: req.body.data})
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({
+      message: 'Не удалось обновить данные новости'
+    })
+  }
+}
 export const getAll = async (req, res) => {
   try {
     const post = await Post.find({})

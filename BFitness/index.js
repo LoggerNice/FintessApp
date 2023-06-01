@@ -63,11 +63,13 @@ app.patch('/medical/:id', MedicalController.update)
 app.get('/program/:id', ProgramController.getByID)
 app.post('/program/generate', ProgramController.generate)
 app.post('/program/create', ProgramController.create)
-app.patch('/program', ProgramController.update)
+app.patch('/program/:id', ProgramController.update)
 
 //Упражнения
 app.get('/exercises', ExerciseController.getAll)
 app.get('/exercises/:id', ExerciseController.getByID)
+app.post('/exercises', ExerciseController.create)
+app.patch('/exercises/:id', ExerciseController.update)
 
 //Посты
 app.post('/posts', PostController.create)

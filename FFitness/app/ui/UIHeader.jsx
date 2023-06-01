@@ -1,11 +1,10 @@
 import {View, Text, TouchableOpacity} from "react-native"
 import { useNavigation } from '@react-navigation/native'
-import {Ionicons} from '@expo/vector-icons'
-
-import UISearch from "./UISearch"
+import {Ionicons, MaterialIcons} from '@expo/vector-icons'
 import UILike from "./UILike"
+import React from "react"
 
-const UIHeader = () => {
+const UIHeader = ({role, isNews, data}) => {
   const navigation = useNavigation()
 
   return (
@@ -15,7 +14,13 @@ const UIHeader = () => {
           <Text className={'font-semibold text-xl text-white pl-2'}>Назад</Text>
         </TouchableOpacity>
         <View className={'flex flex-row'}>
-          <UILike />
+          {role === 'moderator' ?
+            <TouchableOpacity className={'ml-4'} onPress={() => navigation.navigate('Edit', {isNews: isNews, data: data})}>
+              <MaterialIcons name={"edit"} size={30} color="white" backgroundColor='none'/>
+            </TouchableOpacity>
+            :
+            <UILike/>
+          }
         </View>
       </View>
   )

@@ -7,14 +7,12 @@ import {Ionicons} from "@expo/vector-icons"
 
 const TreningScreen = () => {
   const navigation = useNavigation()
-  const [user, setUser] = useState({id: ''})
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const {id, token} = await getUserStorage()
+        const {token} = await getUserStorage()
         if(!token) navigation.navigate('Login')
-        setUser({id: id})
       } catch (e) {
         console.log('Ошибка получения id пользователя.', e)
       }
@@ -36,7 +34,7 @@ const TreningScreen = () => {
         </View>
       </View>
       <View className={'w-screen mt-2'}>
-        <ProgramList userID={user.id} isHorizontal={false}/>
+        <ProgramList isHorizontal={false}/>
       </View>
     </View>
   )

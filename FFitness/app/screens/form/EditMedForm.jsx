@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const EditMedForm = ({route}) => {
   const navigation = useNavigation()
   const {form, userID, role} = route.params
-  const [medForm, setMedForm] = useState({userID: userID || 0, role: role || '', weight:form.weight || 0, age:form.age || 0, height:form.height || 0, access:form.access || false, goal:form.goal || '', desease:form.desease || [], levelTrening:form.levelTrening || ''})
+  const [medForm, setMedForm] = useState({userID: userID || 0, role: role || '', weight:form?.weight, age:form?.age, height:form?.height, access:form?.access || false, goal:form?.goal || '', desease:form?.desease || [], levelTrening:form?.levelTrening || ''})
 
   const listLevel = ['Начинающий', 'Средний', 'Опытный']
   const listGoal = ['Поддержание формы', 'Похудение', 'Набор массы']
@@ -46,9 +46,9 @@ const EditMedForm = ({route}) => {
         <UIHeader/>
 
         <View className={'mt-6 mb-5'}>
-          <UIField placeholder={'Ваш возраст'} value={medForm.age.toString()} onChange={value => setMedForm({...medForm, age: value})}/>
-          <UIField placeholder={'Ваш вес'} value={medForm.weight.toString()} onChange={value => setMedForm({...medForm, weight: value})}/>
-          <UIField placeholder={'Ваш рост'} value={medForm.height.toString()} onChange={value => setMedForm({...medForm, height: value})}/>
+          <UIField placeholder={'Ваш возраст'} value={medForm.age?.toString()} onChange={value => setMedForm({...medForm, age: value})}/>
+          <UIField placeholder={'Ваш вес'} value={medForm.weight?.toString()} onChange={value => setMedForm({...medForm, weight: value})}/>
+          <UIField placeholder={'Ваш рост'} value={medForm.height?.toString()} onChange={value => setMedForm({...medForm, height: value})}/>
           <UIPicker options={listGoal} index={listGoal.indexOf(medForm.goal)} title={'Цель занятия тренировками'} onChange={value => setMedForm({...medForm, goal: value})}/>
           <UIPicker options={listLevel} index={listLevel.indexOf(medForm.levelTrening)} title={'Сложность тренировок'} onChange={value => setMedForm({...medForm, levelTrening: value})}/>
           <UIAddList onChange={value => setMedForm({...medForm, desease: value})}/>

@@ -6,7 +6,8 @@ import React from "react"
 import UIButton from "../../ui/UIButton"
 
 const ExercisesScreen = ({route}) => {
-  const { id } = route.params
+  const isNews = false
+  const { id, role } = route.params
   const url = `${URLA}/exercises/${id}`
   const {data, isLoading} = useFetch(url)
 
@@ -21,7 +22,7 @@ const ExercisesScreen = ({route}) => {
   return (
     <View className={'mt-5 h-full'}>
       <View className={'mb-6 mx-4'}>
-        <UIHeader/>
+        <UIHeader role={role} isNews={isNews} data={data}/>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} className={'flex-1'}>
         <Image source={{uri: data.exercise.gif}} resizeMode='cover' className={'w-full h-96 rounded-lg'}/>

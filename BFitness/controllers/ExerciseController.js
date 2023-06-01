@@ -1,4 +1,5 @@
 import Exercises from "../models/Exercises.js"
+import UserModel from "../models/User.js";
 
 export const getByID = async (req, res) => {
   try {
@@ -37,6 +38,28 @@ export const getAll = async (req, res) => {
     console.log(e)
     res.status(500).json({
       message: 'Не удалось получить упражнения'
+    })
+  }
+}
+
+export const create = async (req, res) => {
+  try {
+    console.log(req.body)
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({
+      message: 'Не удалось добавить упражнение'
+    })
+  }
+}
+
+export const update = async (req, res) => {
+  try {
+    await Exercises.updateOne({_id: req.params.id}, {$set: req.body.data})
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({
+      message: 'Не удалось обновить данные упражнения'
     })
   }
 }
