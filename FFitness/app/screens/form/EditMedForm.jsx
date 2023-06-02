@@ -39,7 +39,6 @@ const EditMedForm = ({route}) => {
     navigation.navigate(() => navigation.goBack())
   }
 
-  console.log(medForm.desease)
   return (
     <ScrollView>
       <View className={'mt-5 mx-4 mb-10'}>

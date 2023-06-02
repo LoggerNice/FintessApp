@@ -31,11 +31,6 @@ const HomeScreen = () => {
             <Ionicons name="newspaper" size={30} color="white" backgroundColor='null'/>
             <Text className={'font-semibold text-xl text-white pl-3'}>Новости</Text>
           </View>
-          <View className={'flex flex-row'}>
-            <TouchableOpacity onPress={() => {console.log('Переадресация на страницу с заметками')}} className={'ml-4'}>
-              <Ionicons name={"heart-sharp"} size={30} color="white" backgroundColor='none'/>
-            </TouchableOpacity>
-          </View>
         </View>
 
         <Text className={'font-bold text-4xl text-white mb-5'}>Привет, {user.name} 👋</Text>

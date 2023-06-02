@@ -3,12 +3,12 @@ import UILike from "../../ui/UILike"
 import UIAdd from "../../ui/UIAdd"
 import React from "react"
 
-const ExerciseCard = ({exercise, role}) => {
+const ExerciseCard = ({exercise, role, onPress, isLikes}) => {
   return (
     <View className={'relative w-[175px] h-[230px] mb-3'}>
       <Image source={{uri: exercise.photo}} blurRadius={3} resizeMode='cover' className={'flex-1 opacity-50 rounded-2xl'}/>
       {role === 'user' && <View className={'flex-row justify-between absolute pt-[15px] pr-4 w-full'}>
-        <UILike/>
+        <UILike onPress={onPress} isLikes={isLikes}/>
         <UIAdd/>
       </View>}
       <View className={'pl-[20px] pb-[25px] absolute bottom-0 left-0'}>

@@ -11,17 +11,17 @@ import EditMedForm from "../screens/form/EditMedForm"
 import UserList from "../screens/profile/UserList"
 import darkTheme from "@react-navigation/native/src/theming/DarkTheme"
 import Navigation from "./Navigation"
-import ExerciseDetail from "../screens/browse/ExerciseDetail";
-import PostsList from "../screens/main/posts/PostsList";
-import PostDetails from "../screens/main/posts/PostDetails";
-import TreningDay from "../screens/trening/TrainingDay";
-import NavigationMed from "./NavigationMed";
-import ProfileUser from "../screens/profile/ProfileUser";
-import PostsFull from "../screens/main/posts/PostFull";
-import Instruction from "../screens/auth/Instruction";
-import AddNewElement from "../screens/browse/AddNewElement";
-import EditElement from "../screens/browse/EditElement";
-import EditDay from "../screens/trening/EditDay";
+import ExerciseDetail from "../screens/browse/ExerciseDetail"
+import PostsList from "../screens/main/posts/PostsList"
+import PostDetails from "../screens/main/posts/PostDetails"
+import TreningDay from "../screens/trening/TrainingDay"
+import NavigationMed from "./NavigationMed"
+import ProfileUser from "../screens/profile/ProfileUser"
+import PostsFull from "../screens/main/posts/PostFull"
+import Instruction from "../screens/auth/Instruction"
+import AddNewElement from "../screens/browse/AddNewElement"
+import EditElement from "../screens/browse/EditElement"
+import EditDay from "../screens/trening/EditDay"
 
 darkTheme.colors.background = '#181A20';
 const RootStack = createNativeStackNavigator()

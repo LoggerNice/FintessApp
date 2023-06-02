@@ -4,6 +4,7 @@ import useFetch from "../../../model/UseFetch"
 import {URLA} from "../../../../axios"
 import UILike from "../../../ui/UILike"
 import React from "react"
+import {favorites, getFav} from "./PostFull";
 
 const PostsList = ({isHorizontal}) => {
   const navigation = useNavigation()

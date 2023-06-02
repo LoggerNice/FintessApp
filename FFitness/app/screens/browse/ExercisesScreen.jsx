@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from 'react'
-import {Ionicons, MaterialCommunityIcons} from "@expo/vector-icons"
-import {Image, Text, TouchableOpacity, View, ScrollView, TouchableHighlight, TextInput} from "react-native"
+import {Ionicons} from "@expo/vector-icons"
+import {Text, TouchableOpacity, View, ScrollView, TouchableHighlight, TextInput} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {URLA} from "../../../axios"
 import useFetch from "../../model/UseFetch"
-import UIAdd from "../../ui/UIAdd"
-import UILike from "../../ui/UILike"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import ExerciseCard from "./ExerciseCard";
+import ExerciseCard from "./ExerciseCard"
 
 const ExercisesScreen = () => {
   const navigation = useNavigation()
@@ -15,8 +13,10 @@ const ExercisesScreen = () => {
   const {data, isLoading} = useFetch(url)
   const [role, setRole] = useState('')
   const [isVisible, setIsVisible] = useState(false)
+  const [isLikes, setIsLikes] = useState(false)
   const [text, setText] = useState('')
   const [searchResults, setSearchResults] = useState([])
+  const [favorites, setFavorites] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,8 +32,23 @@ const ExercisesScreen = () => {
     const filteredExercises = data.exercise.filter((exercise) =>
       exercise.name.toLowerCase().includes(text.toLowerCase())
     )
-
     setSearchResults(filteredExercises)
+  }
+
+  const handleLikes = () => {
+    setIsLikes(prevState => !prevState)
+    setSearchResults(favorites)
+  }
+
+  const addToFavorites = (exercise) => {
+    const isFavorite = favorites.some((favExercise) => favExercise._id === exercise._id);
+
+    if (isFavorite) {
+      const updatedFavorites = favorites.filter((favExercise) => favExercise._id !== exercise._id);
+      setFavorites(updatedFavorites)
+    } else {
+      setFavorites([...favorites, exercise])
+    }
   }
 
   if(!isLoading) {
@@ -57,18 +72,23 @@ const ExercisesScreen = () => {
               placeholderTextColor={'rgba(255,255,255,0.5)'}
             />
           </View>
-          :
-          <View className={'flex-row items-center'}>
-            <Ionicons name="list" size={30} color="white" backgroundColor='null'/>
-            <Text className={'font-semibold text-xl text-white pl-3'}>Упражнения</Text>
-          </View>
+          : isLikes ?
+            <TouchableOpacity onPress={() => setIsLikes(prevState => !prevState)} className={'flex flex-row items-center'}>
+              <Ionicons name="arrow-back" size={30} color="white" backgroundColor='null'/>
+              <Text className={'font-semibold text-xl text-white pl-2'}>Назад</Text>
+            </TouchableOpacity>
+            :
+            <View className={'flex-row items-center'}>
+              <Ionicons name="list" size={30} color="white" backgroundColor='null'/>
+              <Text className={'font-semibold text-xl text-white pl-3'}>Упражнения</Text>
+            </View>
         }
         {role === 'user' ?
           <View className={'flex flex-row'}>
             <TouchableOpacity onPress={() => {setIsVisible(prevState => !prevState)}}>
               <Ionicons name="search" size={30} color="white" backgroundColor='null'/>
             </TouchableOpacity>
-            <TouchableOpacity className={'ml-4'} onPress={() => {console.log('Переадресация на страницу с заметками')}}>
+            <TouchableOpacity className={'ml-4'} onPress={() => {handleLikes()}}>
               <Ionicons name={"heart-sharp"} size={30} color="white" backgroundColor='none'/>
             </TouchableOpacity>
           </View>
@@ -83,16 +103,22 @@ const ExercisesScreen = () => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className={'flex-row w-full h-full flex-wrap justify-between mb-20'}>
-          {isVisible ?
+          {isVisible || isLikes ?
             searchResults.map(exercise =>
               <TouchableHighlight key={exercise._id} onPress={() => navigation.navigate('Exercise', {id: exercise._id, role: role})}>
-                <ExerciseCard exercise={exercise} role={role}/>
+                <ExerciseCard exercise={exercise}
+                              role={role}
+                              onPress={() => addToFavorites(exercise)}
+                              isLikes={favorites.includes(exercise)}/>
               </TouchableHighlight>
             )
             :
             data.exercise.map(exercise =>
               <TouchableHighlight key={exercise._id} onPress={() => navigation.navigate('Exercise', {id: exercise._id, role: role})}>
-                <ExerciseCard exercise={exercise} role={role}/>
+                <ExerciseCard exercise={exercise}
+                              role={role}
+                              onPress={() => addToFavorites(exercise)}
+                              isLikes={favorites.includes(exercise)}/>
               </TouchableHighlight>
             )
           }

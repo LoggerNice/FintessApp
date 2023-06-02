@@ -27,11 +27,6 @@ const TreningScreen = () => {
           <Ionicons name="newspaper" size={30} color="white" backgroundColor='null'/>
           <Text className={'font-semibold text-xl text-white pl-3'}>Программа</Text>
         </View>
-        <View className={'flex flex-row'}>
-          <TouchableOpacity onPress={() => {console.log('Переадресация на страницу с заметками')}} className={'ml-4'}>
-            <Ionicons name={"heart-sharp"} size={30} color="white" backgroundColor='none'/>
-          </TouchableOpacity>
-        </View>
       </View>
       <View className={'w-screen mt-2'}>
         <ProgramList isHorizontal={false}/>

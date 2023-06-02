@@ -5,9 +5,9 @@ import TreningScreen from "../screens/trening/TreningScreen"
 import ProfileScreen from "../screens/profile/ProfileScreen"
 import Icon, {Icons} from "../ui/Icons"
 import UserList from "../screens/profile/UserList"
-import PostFull from "../screens/main/posts/PostFull";
-import ExercisesScreen from "../screens/browse/ExercisesScreen";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import PostFull from "../screens/main/posts/PostFull"
+import ExercisesScreen from "../screens/browse/ExercisesScreen"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const TabArr = [
   { route: 'UserList', label: 'Клиенты', type: Icons.Ionicons, activeIcon: 'home', component: UserList },
