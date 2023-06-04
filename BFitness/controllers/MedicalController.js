@@ -6,6 +6,7 @@ export const create = async (req, res) => {
       userID: req.userId,
       weight: req.body.weight,
       height: req.body.height,
+      male: req.body.male,
       age: req.body.age,
       desease: req.body.desease,
       sertificate: "url",

@@ -18,6 +18,10 @@ const MedicalFormSchema = new mongoose.Schema({
     type: Number,
     require: true,
   },
+  male: {
+    type: String,
+    require: true,
+  },
   desease: {
     type: Array,
   },

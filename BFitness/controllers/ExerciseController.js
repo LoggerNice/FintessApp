@@ -1,5 +1,4 @@
 import Exercises from "../models/Exercises.js"
-import UserModel from "../models/User.js";
 
 export const getByID = async (req, res) => {
   try {
@@ -44,7 +43,20 @@ export const getAll = async (req, res) => {
 
 export const create = async (req, res) => {
   try {
-    console.log(req.body)
+    const doc = new Exercises({
+      part: req.body.part,
+      type: req.body.type,
+      difficulty: req.body.difficulty,
+      description: req.body.text,
+      gif: req.body.gif,
+      name: req.body.title,
+      photo: req.body.url,
+    })
+
+    const exercise = await doc.save()
+    res.json({
+      exercise
+    })
   } catch (e) {
     console.log(e)
     res.status(500).json({

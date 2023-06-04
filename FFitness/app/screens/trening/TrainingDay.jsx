@@ -16,7 +16,8 @@ const TreningDay = ({ route }) => {
 
   const daysOfWeek = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
   const currentDayOfWeek = new Date().getDay()
-  const [isActive, setIsActive] = useState(currentDayOfWeek <= daysOfWeek.indexOf(program[0].nameDay))
+  //currentDayOfWeek <= daysOfWeek.indexOf(program[0].nameDay)
+  const [isActive, setIsActive] = useState(true)
 
   const handleConfirmation = () => {
     Alert.alert(
@@ -39,7 +40,7 @@ const TreningDay = ({ route }) => {
 
   if(isVisible) return (
     <View className={'h-full mt-5'}>
-      <Timer day={program}/>
+      <Timer day={day}/>
       <View className={'mx-4 mt-3'}>
         <UIButton title={'Завершить'} onPress={handleConfirmation}/>
       </View>
@@ -81,6 +82,7 @@ const TreningDay = ({ route }) => {
               </TouchableHighlight>
             )}
           </View>
+          <UIButton title={'Добавить тренировку'} onPress={() => {}}/>
         </ScrollView>
     </View>
   )

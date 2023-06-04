@@ -58,7 +58,7 @@ export const createTrainingProgram = (goal, levelTrening, anthropometricData) =>
 }
 
 export const calculateExercise = (goal, difficulty, type, anthropometricData) => {
-  const { weight, height, age } = anthropometricData
+  const { weight, height, age, male } = anthropometricData
   let sets = 5
   let repetitions = 20
 
@@ -105,7 +105,7 @@ export const calculateExercise = (goal, difficulty, type, anthropometricData) =>
     repetitions += 2
   }
 
-  if (age > 40) {
+  if (age > 40 || male === 'Женский') {
     if(sets > 1) sets -= 1
     repetitions += 2
   }

@@ -1,29 +1,33 @@
-import {Image, ScrollView, Text, TouchableOpacity, View} from "react-native"
+import {Image, ScrollView, Text, TouchableHighlight, View} from "react-native"
 import React, {useEffect, useState} from "react"
 import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons'
-
 import ProgramList from "../trening/ProgramList"
 import MedForm from "../form/MedForm"
 import {clearStorage, getUserStorage} from "../../model/Storage"
 import {useNavigation} from "@react-navigation/native"
+import axios from "axios";
+import {URLA} from "../../../axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = () => {
   const navigation = useNavigation()
-  const [user, setUser] = useState({id: '', role: '', token: '', name: 'Вадим', exp: 352, photo: "https://i.yapx.cc/PdTRU.jpg"})
+  const [user, setUser] = useState({id: '', role: '', token: '', name: '', exp: 0, photo: "https://i.yapx.cc/PdTRU.jpg"})
   const level = Math.floor(user.exp / 100)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const {id, token, name, exp, role, photo} = await getUserStorage()
+        const {id, token, role} = await getUserStorage()
+        const response = await axios.get(`${URLA}/profile/${id}`)
         if(!token) navigation.navigate('Login')
-        setUser({id: id, role: role, token: token, name: name, exp: exp, photo: photo})
+        setUser({id: id, role: role, token: token, name: response.data.name, exp: response.data.experience, photo: response.data.avatarURL})
+        await AsyncStorage.setItem('name', String(user.name))
       } catch (e) {
         console.log('Ошибка получения данных пользователя.', e)
       }
     }
     fetchData()
-  }, [])
+  }, [user])
 
   const logout = async () => {
     try {
@@ -39,15 +43,15 @@ const ProfileScreen = () => {
     <View className={'mt-5 mx-4'}>
       <View className={'items-center'}>
         <View className={'flex flex-row justify-between w-screen px-4'}>
-          <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+          <TouchableHighlight onPress={() => navigation.navigate('EditProfile', {user})}>
             <MaterialCommunityIcons name="account-edit" size={34} color="white" backgroundColor='null'/>
-          </TouchableOpacity>
+          </TouchableHighlight>
           <View className={'w-32 h-32 relative'}>
             <Image style={{borderColor: '#6842FF', borderWidth: 2}} source={{uri: user.photo}} resizeMode="cover" className={'flex-1 rounded-full w-full h-full'}/>
           </View>
-          <TouchableOpacity onPress={logout}>
+          <TouchableHighlight onPress={logout}>
             <Ionicons name="exit-outline" size={32} color="white" backgroundColor='null'/>
-          </TouchableOpacity>
+          </TouchableHighlight>
         </View>
         <Text className={'font-bold text-3xl text-center w-screen pt-2 text-white'}>{user.name}</Text>
       </View>
@@ -71,9 +75,9 @@ const ProfileScreen = () => {
           <View>
             <View className={'flex-row justify-between mb-5'}>
               <Text className={'text-xl text-white'}>Тренировки</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Trening')}>
+              <TouchableHighlight onPress={() => navigation.navigate('Trening')}>
                 <Text className={'my-auto text-primary'}>Перейти ➔</Text>
-              </TouchableOpacity>
+              </TouchableHighlight>
             </View>
             <View className={'-mr-4'}>
               <ProgramList userID={user.id} isHorizontal={true}/>

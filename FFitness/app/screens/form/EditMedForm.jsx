@@ -12,10 +12,11 @@ import {useNavigation} from "@react-navigation/native"
 const EditMedForm = ({route}) => {
   const navigation = useNavigation()
   const {form, userID, role} = route.params
-  const [medForm, setMedForm] = useState({userID: userID || 0, role: role || '', weight:form?.weight, age:form?.age, height:form?.height, access:form?.access || false, goal:form?.goal || '', desease:form?.desease || [], levelTrening:form?.levelTrening || ''})
+  const [medForm, setMedForm] = useState({userID: userID || 0, role: role || '', male:form?.male, weight:form?.weight, age:form?.age, height:form?.height, access:form?.access || false, goal:form?.goal || '', desease:form?.desease || [], levelTrening:form?.levelTrening || ''})
 
   const listLevel = ['Начинающий', 'Средний', 'Опытный']
   const listGoal = ['Поддержание формы', 'Похудение', 'Набор массы']
+  const listMale = ['Мужской', 'Женский']
 
   const fetchPatchAPI = async () => {
     try {
@@ -48,6 +49,7 @@ const EditMedForm = ({route}) => {
           <UIField placeholder={'Ваш возраст'} value={medForm.age?.toString()} onChange={value => setMedForm({...medForm, age: value})}/>
           <UIField placeholder={'Ваш вес'} value={medForm.weight?.toString()} onChange={value => setMedForm({...medForm, weight: value})}/>
           <UIField placeholder={'Ваш рост'} value={medForm.height?.toString()} onChange={value => setMedForm({...medForm, height: value})}/>
+          <UIPicker options={listMale} index={listMale.indexOf(medForm.male)} title={'Ваш пол'} onChange={value => setMedForm({...medForm, male: value})}/>
           <UIPicker options={listGoal} index={listGoal.indexOf(medForm.goal)} title={'Цель занятия тренировками'} onChange={value => setMedForm({...medForm, goal: value})}/>
           <UIPicker options={listLevel} index={listLevel.indexOf(medForm.levelTrening)} title={'Сложность тренировок'} onChange={value => setMedForm({...medForm, levelTrening: value})}/>
           <UIAddList value={medForm.desease} onChange={value => setMedForm({...medForm, desease: value})}/>

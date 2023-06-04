@@ -6,7 +6,8 @@ export const generate = async (req, res) => {
   const anthropometricData = {
     weight: data.weight,
     height: data.height,
-    age: data.age
+    age: data.age,
+    male: data.male
   }
 
   createTrainingProgram(data.goal, data.levelTrening, anthropometricData)
@@ -27,6 +28,7 @@ export const generate = async (req, res) => {
     })
 }
 export const create = async (req, res) => {}
+
 export const update = async (req, res) => {
   try {
     await Program.updateOne({userID: req.params.id}, {$set: req.body.data})
@@ -37,7 +39,9 @@ export const update = async (req, res) => {
     })
   }
 }
+
 export const remove = async (req, res) => {}
+
 export const getByID = async (req, res) => {
   try {
     const program = await Program.findOne({userID: req.params.id})
@@ -58,6 +62,7 @@ export const getByID = async (req, res) => {
     })
   }
 }
+
 export const getAll = async (req, res) => {
   try {
     const program = await Program.find({})

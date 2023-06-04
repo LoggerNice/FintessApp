@@ -46,9 +46,9 @@ const ProgramList = ({isHorizontal}) => {
 
   if(!isLoadingProgram) return (
     <View className={'space-y-3 items-center -ml-4'}>
-      {/*<View className={'w-[270px]'}>*/}
-      {/*  <UIButton title={'Создать вручную'} onPress={() => {}}/>*/}
-      {/*</View>*/}
+      <View className={'w-[270px]'}>
+        <UIButton title={'Создать вручную'} onPress={() => {}}/>
+      </View>
       <View className={'w-[270px]'}>
         <UIButton title={'Сгенерировать'} onPress={generateProgram}/>
       </View>

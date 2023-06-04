@@ -31,6 +31,8 @@ const Login = () => {
           navigation.navigate('Navigation')
         else
           navigation.navigate('NavigationMed')
+      } else {
+        setIsVerified(false)
       }
     }).catch(e => {
       console.log('Ошибка получения токена пользователя.', e)

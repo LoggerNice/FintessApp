@@ -42,7 +42,7 @@ const UserList = () => {
           <Text className={'text-white'}>Имя</Text>
           <Text className={'text-white'}>Номер телефона</Text>
         </View>
-        {data.data?.map((user, index) => (
+        {data.data?.map(user => (
           <TouchableOpacity onPress={() => navigation.navigate('ProfileUser', {user})} key={user._id}>
             <View className={'flex-row justify-between border-y-2 py-2 border-primary'}>
               <Text className={'text-lg text-white'}>{user.name}</Text>
