@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react'
-import {Text, TouchableOpacity, View} from "react-native"
+import React, {useEffect} from 'react'
+import {Text, View} from "react-native"
 import ProgramList from "./ProgramList"
 import {useNavigation} from "@react-navigation/native"
 import {getUserStorage} from "../../model/Storage"
 import {Ionicons} from "@expo/vector-icons"
 
-const TreningScreen = () => {
+const TreningScreen = ({ route }) => {
   const navigation = useNavigation()
+  const {user} = route.params || {}
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +30,7 @@ const TreningScreen = () => {
         </View>
       </View>
       <View className={'w-screen mt-2'}>
-        <ProgramList isHorizontal={false}/>
+        <ProgramList userID={user?._id}  isHorizontal={false}/>
       </View>
     </View>
   )

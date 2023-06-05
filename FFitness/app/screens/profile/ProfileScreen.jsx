@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = () => {
   const navigation = useNavigation()
-  const [user, setUser] = useState({id: '', role: '', token: '', name: '', exp: 0, photo: "https://i.yapx.cc/PdTRU.jpg"})
+  const [user, setUser] = useState({id: '', role: '', token: '', name: '', exp: 0, photo: "https://www.pinclipart.com/picdir/big/165-1653686_female-user-icon-png-download-user-colorful-icon.png"})
   const level = Math.floor(user.exp / 100)
 
   useEffect(() => {

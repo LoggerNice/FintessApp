@@ -8,7 +8,7 @@ import axios from "axios";
 import {URLA} from "../../../axios";
 import {getUserStorage} from "../../model/Storage";
 
-const EditDay = ({route}) => {
+const EditDay = ({ route }) => {
   const navigation = useNavigation()
   const {trening, idx} = route.params
   const [program, setProgram] = useState(trening)
@@ -41,12 +41,12 @@ const EditDay = ({route}) => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className={'flex-col space-y-3 w-full h-full mb-24'}>
-          {program[idx]?.map((exercise, idx) =>
+          {program[idx]?.map((exercise, index) =>
             <View key={exercise._id}>
               <View className={''}>
                 <View className={'flex-row justify-between'}>
                   <Text className={'font-bold text-2xl text-white mb-2'}>{exercise.name}</Text>
-                  <TouchableHighlight onPress={() => deleteHandler(idx)}>
+                  <TouchableHighlight onPress={() => deleteHandler(index)}>
                     <MaterialIcons  name="delete" size={30} color="white" backgroundColor='null'/>
                   </TouchableHighlight>
                 </View>
@@ -54,23 +54,31 @@ const EditDay = ({route}) => {
                   <Text className={'text-white mb-1'}>Количество подходов</Text>
                   <UIField placeholder={'Подходы'}
                            value={exercise.sets.toString()}
-                           onChange={value => setProgram(program.map(item => {
-                             if (item._id === exercise._id) {
-                               return {...item, sets: Number(value)}
-                             }
-                             return item
-                           }))}/>
+                           onChange={value => setProgram(prevProgram => {
+                             const updatedProgram = [...prevProgram]
+                             updatedProgram[idx] = updatedProgram[idx].map(item => {
+                               if (item._id === exercise._id) {
+                                 return { ...item, sets: Number(value) }
+                               }
+                               return item
+                             })
+                             return updatedProgram
+                           })}/>
                 </View>
                 <View>
                   <Text className={'text-white mb-1'}>Количество выполнений</Text>
                   <UIField placeholder={'Выполнения'}
                            value={exercise.repetitions.toString()}
-                           onChange={value => setProgram(program.map(item => {
-                             if (item._id === exercise._id) {
-                               return {...item, repetitions: Number(value)}
-                             }
-                             return item
-                           }))}/>
+                           onChange={value => setProgram(prevProgram => {
+                             const updatedProgram = [...prevProgram]
+                             updatedProgram[idx] = updatedProgram[idx].map(item => {
+                               if (item._id === exercise._id) {
+                                 return { ...item, repetitions: Number(value) }
+                               }
+                               return item
+                             })
+                             return updatedProgram
+                           })}/>
                 </View>
               </View>
             </View>

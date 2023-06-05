@@ -62,24 +62,3 @@ export const getByID = async (req, res) => {
     })
   }
 }
-
-export const getAll = async (req, res) => {
-  try {
-    const program = await Program.find({})
-    if(!program) {
-      console.log('Программы тренировок не найдены')
-      return res.status(404).json({
-        message: 'Программы тренировок не найдены'
-      })
-    }
-
-    res.json({
-      program
-    })
-  } catch (e) {
-    console.log(e)
-    res.status(500).json({
-      message: 'Не удалось получить программы тренировок'
-    })
-  }
-}

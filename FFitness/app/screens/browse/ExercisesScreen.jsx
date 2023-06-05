@@ -7,8 +7,9 @@ import useFetch from "../../model/UseFetch"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import ExerciseCard from "./ExerciseCard"
 
-const ExercisesScreen = () => {
+const ExercisesScreen = ({ route }) => {
   const navigation = useNavigation()
+  const {trening, idx} = route.params || {}
   const url = `${URLA}/exercises`
   const {data, isLoading} = useFetch(url)
   const [role, setRole] = useState('')
@@ -109,6 +110,8 @@ const ExercisesScreen = () => {
                 <ExerciseCard exercise={exercise}
                               role={role}
                               onPress={() => addToFavorites(exercise)}
+                              idx={idx}
+                              trening={trening}
                               isLikes={favorites.includes(exercise)}/>
               </TouchableHighlight>
             )
@@ -118,6 +121,8 @@ const ExercisesScreen = () => {
                 <ExerciseCard exercise={exercise}
                               role={role}
                               onPress={() => addToFavorites(exercise)}
+                              idx={idx}
+                              trening={trening}
                               isLikes={favorites.includes(exercise)}/>
               </TouchableHighlight>
             )

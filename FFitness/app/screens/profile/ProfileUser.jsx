@@ -21,7 +21,7 @@ const ProfileUser = ({ route }) => {
   }, [])
 
   return (
-    <View>
+    <View className={'mb-20'}>
       <TouchableOpacity onPress={() => navigation.goBack()} className={'ml-4 my-5 flex flex-row items-center'}>
         <Ionicons name="arrow-back" size={30} color="white" backgroundColor='null'/>
         <Text className={'font-semibold text-xl text-white pl-2'}>Назад</Text>
@@ -40,7 +40,7 @@ const ProfileUser = ({ route }) => {
             <MedForm userID={user._id} role={role}/>
             <View className={'flex-row justify-between mb-5'}>
               <Text className={'text-xl text-white'}>Тренировки</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Trening')}>
+              <TouchableOpacity onPress={() => navigation.navigate('Trening', {user})}>
                 <Text className={'my-auto text-primary'}>Перейти ➔</Text>
               </TouchableOpacity>
             </View>

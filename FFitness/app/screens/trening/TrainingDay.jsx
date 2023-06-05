@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import {View, Text, TouchableOpacity, ScrollView, TouchableHighlight, Image, Alert} from 'react-native'
 import {Ionicons, MaterialIcons} from "@expo/vector-icons"
 import {useNavigation} from "@react-navigation/native"
@@ -10,14 +10,14 @@ import {getUserStorage} from "../../model/Storage"
 
 const TreningDay = ({ route }) => {
   const navigation = useNavigation()
-  const {day, trening, idx} = route.params
-  const [program, setProgram] = useState(day)
+  const {trening, idx} = route.params
   const [isVisible, setIsVisible] = useState(false)
+  const [program, setProgram] = useState(trening)
 
-  const daysOfWeek = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
-  const currentDayOfWeek = new Date().getDay()
-  //currentDayOfWeek <= daysOfWeek.indexOf(program[0].nameDay)
-  const [isActive, setIsActive] = useState(true)
+  const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
+  const day = new Date().getDay()
+  const currentDayOfWeek = day === 0 ? 6 : (day - 1)
+  const [isActive, setIsActive] = useState(currentDayOfWeek <= daysOfWeek.indexOf(trening[idx][0].nameDay))
 
   const handleConfirmation = () => {
     Alert.alert(
@@ -38,9 +38,13 @@ const TreningDay = ({ route }) => {
     )
   }
 
+  const addHandle = () => {
+    navigation.navigate('Browse', {trening, idx})
+  }
+
   if(isVisible) return (
     <View className={'h-full mt-5'}>
-      <Timer day={day}/>
+      <Timer day={program}/>
       <View className={'mx-4 mt-3'}>
         <UIButton title={'Завершить'} onPress={handleConfirmation}/>
       </View>
@@ -55,13 +59,13 @@ const TreningDay = ({ route }) => {
           <Text className={'font-semibold text-xl text-white pl-2'}>Назад</Text>
         </TouchableOpacity>
         <View className={'flex flex-row'}>
-          <TouchableOpacity onPress={() => navigation.navigate('EditDay', {day, trening, idx})}>
+          <TouchableOpacity onPress={() => navigation.navigate('EditDay', {trening, idx})}>
             <MaterialIcons  name="settings-input-component" size={30} color="white" backgroundColor='null'/>
           </TouchableOpacity>
         </View>
       </View>
       <View className={'mb-5'}>
-        <Text className={'text-white text-3xl font-bold mb-4'}>{program[0].nameDay}</Text>
+        <Text className={'text-white text-3xl font-bold mb-4'}>{program[idx][0].nameDay}</Text>
         {isActive ?
           <UIButton title={'Начать тренировку'} onPress={() => {setIsVisible(prevState => !prevState)}}/>
         :
@@ -70,7 +74,7 @@ const TreningDay = ({ route }) => {
       </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className={'flex-row w-full h-full mb-52 flex-wrap justify-between'}>
-            {program?.map(exercise =>
+            {program[idx][0].name && program[idx].map(exercise =>
               <TouchableHighlight key={exercise._id} onPress={() => navigation.navigate('Exercise', {id: exercise._id})}>
                 <View className={'relative w-[175px] h-[230px] mb-3'}>
                   <Image source={{uri: exercise.photo}} resizeMode='cover' blurRadius={3} className={'flex-1 opacity-50 rounded-2xl'}/>
@@ -81,8 +85,15 @@ const TreningDay = ({ route }) => {
                 </View>
               </TouchableHighlight>
             )}
+            <TouchableHighlight onPress={addHandle}>
+              <View className={'relative w-[175px] h-[230px] mb-3 bg-primary rounded-2xl'}>
+                <View className={'flex-col items-center justify-center my-auto'}>
+                  <Ionicons name={'add-circle-outline'} size={30} color='white' backgroundColor='none'/>
+                  <Text className={'font-bold text-xl text-white text-center'}>Добавить</Text>
+                </View>
+              </View>
+            </TouchableHighlight>
           </View>
-          <UIButton title={'Добавить тренировку'} onPress={() => {}}/>
         </ScrollView>
     </View>
   )

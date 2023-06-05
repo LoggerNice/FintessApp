@@ -50,9 +50,9 @@ function Navigation() {
       <Tab.Screen name={'Home'} component={role === 'moderator' ? PostFull : UserList} options={{
         tabBarButton: (props) => <TabButton {...props} item={role === 'moderator' ? TabArr[3] : TabArr[0]} />
       }}/>
-      <Tab.Screen name={'Trening'} component={role === 'moderator' ? ExercisesScreen : TreningScreen} options={{
-        tabBarButton: (props) => <TabButton {...props} item={role === 'moderator' ? TabArr[4] : TabArr[1]} />
-      }}/>
+      {role === 'moderator' && <Tab.Screen name={'Trening'} component={ExercisesScreen} options={{
+        tabBarButton: (props) => <TabButton {...props} item={TabArr[4]}/>
+      }}/>}
       <Tab.Screen name={'Profile'} component={ProfileScreen} options={{
         tabBarButton: (props) => <TabButton {...props} item={TabArr[2]} />
       }}/>
