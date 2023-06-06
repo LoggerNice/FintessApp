@@ -38,7 +38,7 @@ const Registration = ({navigation}) => {
   }
 
   const validateName = (name) => {
-    const pattern = /^[a-zA-Z]{2,}$/
+    const pattern = /^[a-zA-Zа-яА-Я]{2,}$/
     return pattern.test(name)
   }
 

@@ -2,15 +2,13 @@ import {Image, Modal, Text, View} from "react-native"
 import UILike from "../../ui/UILike"
 import UIAdd from "../../ui/UIAdd"
 import React, {useState} from "react"
-import {useNavigation} from "@react-navigation/native"
 import UIField from "../../ui/UIField"
 import UIButton from "../../ui/UIButton"
 import {getUserStorage} from "../../model/Storage"
 import axios from "axios"
 import {URLA} from "../../../axios"
 
-const ExerciseCard = ({exercise, role, onPress, isLikes, trening, idx}) => {
-  const navigation = useNavigation()
+const ExerciseCard = ({exercise, role, onPress, isLikes, trening, idx, userID}) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [sets, setSets] = useState('')
   const [reps, setReps] = useState('')
@@ -31,9 +29,7 @@ const ExerciseCard = ({exercise, role, onPress, isLikes, trening, idx}) => {
 
     const {id} = await getUserStorage()
     const data = {training: trening}
-    await axios.patch(`${URLA}/program/${id}`, {data})
-
-    return navigation.navigate('DayTrening', {trening, idx})
+    await axios.patch(`${URLA}/program/${role === 'user' ? id : userID}`, {data})
   }
 
   return (
@@ -58,10 +54,16 @@ const ExerciseCard = ({exercise, role, onPress, isLikes, trening, idx}) => {
       </Modal>
       <View className={'relative w-[175px] h-[230px] mb-3'}>
         <Image source={{uri: exercise.photo}} blurRadius={3} resizeMode='cover' className={'flex-1 opacity-50 rounded-2xl'}/>
-        {role === 'user' && <View className={'flex-row justify-between absolute pt-[15px] pr-4 w-full'}>
-          <UILike onPress={onPress} isLikes={isLikes}/>
-          <UIAdd onPress={addHandle}/>
-        </View>}
+        {(role === 'user' || role === 'trener') &&
+          <View className={'flex-row justify-between absolute pt-[15px] pr-4 w-full'}>
+            {role === 'trener' ?
+              <View></View>
+              :
+              <UILike onPress={onPress} isLikes={isLikes}/>
+            }
+            <UIAdd onPress={addHandle}/>
+          </View>
+        }
         <View className={'pl-[20px] pb-[25px] absolute bottom-0 left-0'}>
           <Text className={'font-bold text-[18px] text-white pb-1'}>{exercise.name}</Text>
           <Text className={'text-white text-sm opacity-80'}>{exercise.difficulty === 'Начинающий' ? 'Лёгкий': exercise.difficulty} уровень</Text>

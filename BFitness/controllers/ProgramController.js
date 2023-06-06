@@ -12,13 +12,19 @@ export const generate = async (req, res) => {
 
   createTrainingProgram(data.goal, data.levelTrening, anthropometricData)
     .then(trainingProgram => {
-      const doc = new Program({
+      const newProgram = new Program({
         userID: data.userID,
         training: trainingProgram
       })
 
-      const program = doc.save()
-      res.json({program})
+      newProgram.save()
+        .then(program => {
+          console.log('Программа сохранена:', program)
+          res.json({program})
+        })
+        .catch(error => {
+          console.error('Ошибка при сохранении программы:', error)
+        })
     })
     .catch(err => {
       console.log('Список упражнений не сформировался.', err)

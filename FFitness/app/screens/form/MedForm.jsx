@@ -12,9 +12,9 @@ const MedForm = ({userID, role}) => {
   const {data: {form}, isLoading} = useFetch(url)
 
   return (
-    <View className={'my-6 px-5 py-4 bg-white rounded-2xl space-y-3'}>
+    <View className={'my-6 px-5 py-4 bg-input rounded-2xl space-y-3'}>
       <View className={'flex-row justify-between py-2'}>
-        <Text className={'text-[22px] text-second font-bold'}>Медицинская анкета</Text>
+        <Text className={'text-[22px] text-black font-bold'}>Медицинская анкета</Text>
         <TouchableOpacity onPress={() => navigation.navigate('EditMed', {form, userID, role})}>
           <Text className={'my-auto text-primary'}>Перейти ➔</Text>
         </TouchableOpacity>

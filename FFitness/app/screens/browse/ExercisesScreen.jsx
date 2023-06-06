@@ -9,7 +9,7 @@ import ExerciseCard from "./ExerciseCard"
 
 const ExercisesScreen = ({ route }) => {
   const navigation = useNavigation()
-  const {trening, idx} = route.params || {}
+  const {trening, userID, idx} = route.params || {}
   const url = `${URLA}/exercises`
   const {data, isLoading} = useFetch(url)
   const [role, setRole] = useState('')
@@ -84,7 +84,7 @@ const ExercisesScreen = ({ route }) => {
               <Text className={'font-semibold text-xl text-white pl-3'}>Упражнения</Text>
             </View>
         }
-        {role === 'user' ?
+        {role === 'user' && (
           <View className={'flex flex-row'}>
             <TouchableOpacity onPress={() => {setIsVisible(prevState => !prevState)}}>
               <Ionicons name="search" size={30} color="white" backgroundColor='null'/>
@@ -93,13 +93,14 @@ const ExercisesScreen = ({ route }) => {
               <Ionicons name={"heart-sharp"} size={30} color="white" backgroundColor='none'/>
             </TouchableOpacity>
           </View>
-          :
+        )}
+        {role === 'moderator' && (
           <View className={'flex flex-row'}>
             <TouchableOpacity className={'ml-4'} onPress={() => navigation.navigate('Add', {isNews: false})}>
               <Ionicons name={"add-circle"} size={30} color="white" backgroundColor='none'/>
             </TouchableOpacity>
           </View>
-        }
+        )}
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -112,6 +113,7 @@ const ExercisesScreen = ({ route }) => {
                               onPress={() => addToFavorites(exercise)}
                               idx={idx}
                               trening={trening}
+                              userID={userID}
                               isLikes={favorites.includes(exercise)}/>
               </TouchableHighlight>
             )
@@ -122,6 +124,7 @@ const ExercisesScreen = ({ route }) => {
                               role={role}
                               onPress={() => addToFavorites(exercise)}
                               idx={idx}
+                              userID={userID}
                               trening={trening}
                               isLikes={favorites.includes(exercise)}/>
               </TouchableHighlight>

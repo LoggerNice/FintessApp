@@ -56,7 +56,7 @@ const ProfileScreen = () => {
         <Text className={'font-bold text-3xl text-center w-screen pt-2 text-white'}>{user.name}</Text>
       </View>
       <View className={'mb-5'}>
-        <View className={'mt-4 py-4 bg-white rounded-2xl'}>
+        <View className={'mt-4 py-4 bg-input rounded-2xl'}>
           <View className={'flex-row px-5'}>
             <Text style={{borderColor: '#BCB3E2', borderWidth: 5}}
                   className={'font-bold my-auto bg-primary pt-[10px] text-center rounded-full text-xl w-[50px] h-[50px] text-white'}>{level}

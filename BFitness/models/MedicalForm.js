@@ -25,10 +25,6 @@ const MedicalFormSchema = new mongoose.Schema({
   desease: {
     type: Array,
   },
-  sertificate: {
-    type: String,
-    require: true,
-  },
   goal: {
     type: String,
   },

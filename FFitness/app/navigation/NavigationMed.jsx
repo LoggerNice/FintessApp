@@ -65,11 +65,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 24
+    paddingTop: 24,
+    paddingBottom: 24
   },
   tabBar: {
     height: 80,
-    marginBottom: 20,
     borderRadius: 16
   }
 })

@@ -3,13 +3,12 @@ import MedicalForm from "../models/MedicalForm.js"
 export const create = async (req, res) => {
   try {
     const doc = new MedicalForm({
-      userID: req.userId,
+      userID: req.body.userID,
       weight: req.body.weight,
       height: req.body.height,
       male: req.body.male,
       age: req.body.age,
       desease: req.body.desease,
-      sertificate: "url",
       goal: req.body.goal,
       levelTrening: req.body.levelTrening,
       access: req.body.access,

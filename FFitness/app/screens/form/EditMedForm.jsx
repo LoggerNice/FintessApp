@@ -11,12 +11,12 @@ import {useNavigation} from "@react-navigation/native"
 
 const EditMedForm = ({route}) => {
   const navigation = useNavigation()
-  const {form, userID, role} = route.params
-  const [medForm, setMedForm] = useState({userID: userID || 0, role: role || '', male:form?.male, weight:form?.weight, age:form?.age, height:form?.height, access:form?.access || false, goal:form?.goal || '', desease:form?.desease || [], levelTrening:form?.levelTrening || ''})
-
   const listLevel = ['Начинающий', 'Средний', 'Опытный']
   const listGoal = ['Поддержание формы', 'Похудение', 'Набор массы']
   const listMale = ['Мужской', 'Женский']
+
+  const {form, userID, role} = route.params
+  const [medForm, setMedForm] = useState({userID: userID || 0, role: role || '', male:form?.male || listMale[0], weight:form?.weight, age:form?.age, height:form?.height, access:form?.access || false, goal:form?.goal, desease:form?.desease || [], levelTrening:form?.levelTrening || listLevel[0]})
 
   const fetchPatchAPI = async () => {
     try {
@@ -37,7 +37,7 @@ const EditMedForm = ({route}) => {
 
   const regHandler = async () => {
     await fetchPatchAPI()
-    navigation.navigate(() => navigation.goBack())
+    navigation.navigate('Profile')
   }
 
   return (

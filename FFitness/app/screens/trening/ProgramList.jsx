@@ -6,6 +6,13 @@ import axios from "axios"
 import React, {useEffect, useState} from "react"
 import {getUserStorage} from "../../model/Storage"
 
+export const compareByDay = (a, b) => {
+  const daysOrder = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
+  const dayA = daysOrder.indexOf(a[0].nameDay)
+  const dayB = daysOrder.indexOf(b[0].nameDay)
+  return dayA - dayB
+}
+
 const ProgramList = ({userID, isHorizontal}) => {
   const navigation = useNavigation()
   const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
@@ -24,19 +31,12 @@ const ProgramList = ({userID, isHorizontal}) => {
     const fetchData = async () => {
       const {id, role} = await getUserStorage()
       const response = await axios.get(`${URLA}/program/${role === 'user' ? id : userID}`)
-      setProgram(response.data.program.training.sort(compareByDay))
+      setProgram(response.data.program.training)
       setIsLoadingProgram(!!response)
     }
 
     fetchData()
-  }, [])
-
-  const compareByDay = (a, b) => {
-    const daysOrder = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
-    const dayA = daysOrder.indexOf(a[0].nameDay)
-    const dayB = daysOrder.indexOf(b[0].nameDay)
-    return dayA - dayB
-  }
+  }, [program])
 
   const generateProgram = async () => {
     const {id} = await getUserStorage()
@@ -74,9 +74,13 @@ const ProgramList = ({userID, isHorizontal}) => {
         nameDay: uniqueDay[0]
       }]
 
+      const update = [...program, newTreningDay]
+      const {id, role} = await getUserStorage()
+      const data = {training: update.sort(compareByDay)}
+      await axios.patch(`${URLA}/program/${role === 'user' ? id : userID}`, {data})
+
       setProgram(prevState => {
-        const update = [...prevState, newTreningDay]
-        return update.sort(compareByDay)
+        return [...prevState, update.sort(compareByDay)]
       })
     }
   }
@@ -97,7 +101,7 @@ const ProgramList = ({userID, isHorizontal}) => {
       <View className={isHorizontal ? '' : 'h-full mb-[150px]'}>
         <View className={isHorizontal ? 'flex-row space-x-6' : 'flex-col space-y-6 mx-4'}>
           {program?.map((day, idx) =>
-            <TouchableHighlight onPress={() => navigation.navigate('DayTrening', {trening: program, idx})} key={idx}>
+            <TouchableHighlight onPress={() => navigation.navigate('DayTrening', {trening: program, userID, idx})} key={idx}>
               <View className={`${isHorizontal ? 'w-[300px] h-[300px]' : 'h-[150px]'} relative ${daysOfWeek[currentDayOfWeek] === day[0].nameDay && 'border-primary border-2 rounded-2xl'}`}>
                 <Image source={{uri: `${day[0].type === 'Кардио' ? dataForRender.images[0] : dataForRender.images[1]}`}} resizeMode="cover" className={'flex-1 opacity-50 rounded-2xl'}/>
                 <View className={`${isHorizontal ? 'py-[30px]' : 'w-full flex-col justify-between h-full py-[20px]'} pl-[40px] pr-[40px] absolute bottom-0 left-0`}>

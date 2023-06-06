@@ -7,10 +7,11 @@ import Timer from "./Timer"
 import axios from "axios"
 import {URLA} from "../../../axios"
 import {getUserStorage} from "../../model/Storage"
+import {compareByDay} from "./ProgramList";
 
 const TreningDay = ({ route }) => {
   const navigation = useNavigation()
-  const {trening, idx} = route.params
+  const {trening, userID, idx} = route.params
   const [isVisible, setIsVisible] = useState(false)
   const [program, setProgram] = useState(trening)
 
@@ -18,6 +19,16 @@ const TreningDay = ({ route }) => {
   const day = new Date().getDay()
   const currentDayOfWeek = day === 0 ? 6 : (day - 1)
   const [isActive, setIsActive] = useState(currentDayOfWeek <= daysOfWeek.indexOf(trening[idx][0].nameDay))
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const {id, role} = await getUserStorage()
+      const response = await axios.get(`${URLA}/program/${role === 'user' ? id : userID}`)
+      setProgram(response.data.program.training.sort(compareByDay))
+    }
+    fetchData()
+  }, [program])
+
 
   const handleConfirmation = () => {
     Alert.alert(
@@ -39,7 +50,7 @@ const TreningDay = ({ route }) => {
   }
 
   const addHandle = () => {
-    navigation.navigate('Browse', {trening, idx})
+    navigation.navigate('Browse', {trening, userID, idx})
   }
 
   if(isVisible) return (
