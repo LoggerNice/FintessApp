@@ -1,4 +1,4 @@
-import {View, ScrollView} from "react-native"
+import {View, ScrollView, Text, TouchableOpacity} from "react-native"
 import axios from "axios"
 import UIHeader from "../../ui/UIHeader"
 import React, {useState} from "react"
@@ -8,6 +8,7 @@ import UIPicker from "../../ui/UIPicker"
 import UIAddList from "../../ui/UIAddList"
 import {URLA} from "../../../axios"
 import {useNavigation} from "@react-navigation/native"
+import {Ionicons} from "@expo/vector-icons";
 
 const EditMedForm = ({route}) => {
   const navigation = useNavigation()
@@ -43,7 +44,10 @@ const EditMedForm = ({route}) => {
   return (
     <ScrollView>
       <View className={'mt-5 mx-4 mb-10'}>
-        <UIHeader/>
+        <TouchableOpacity onPress={() => navigation.goBack()} className={'flex flex-row items-center'}>
+          <Ionicons name="arrow-back" size={30} color="white" backgroundColor='null'/>
+          <Text className={'font-semibold text-xl text-white pl-2'}>Назад</Text>
+        </TouchableOpacity>
 
         <View className={'mt-6 mb-5'}>
           <UIField placeholder={'Ваш возраст'} value={medForm.age?.toString()} onChange={value => setMedForm({...medForm, age: value})}/>

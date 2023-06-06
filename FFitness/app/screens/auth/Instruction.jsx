@@ -1,4 +1,3 @@
-import {useNavigation} from "@react-navigation/native"
 import React from "react"
 import axios from "axios"
 import {URLA} from "../../../axios"
@@ -6,8 +5,7 @@ import {getUserStorage} from "../../model/Storage"
 import {ScrollView, Text, View} from "react-native"
 import UIButton from "../../ui/UIButton"
 
-const Instruction = () => {
-  const navigation = useNavigation()
+const Instruction = ({navigation}) => {
 
   const fetchAPI = async () => {
     const {id} = await getUserStorage()
@@ -16,13 +14,13 @@ const Instruction = () => {
   }
 
   const acceptHandler = async () => {
-    await fetchAPI()
     navigation.navigate('Navigation')
+    await fetchAPI()
   }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View className={'mx-4 mb-10'}>
+      <View className={'mx-4 mb-6 mt-3'}>
         <Text className={'font-bold text-4xl mb-6 text-white text-center'}>Инструкция по технике безопасности при занятиях в фитнес-клубе</Text>
         <Text className={'text-lg text-white mb-5'}>1. При выполнении упражнений со штангой необходимо использовать замки
           безопасности.
